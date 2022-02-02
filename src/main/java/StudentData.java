@@ -1,7 +1,3 @@
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -21,11 +17,5 @@ public class StudentData {
                 "name='" + name + '\'' +
                 ", curriculum='" + curriculum + '\'' +
                 '}';
-    }
-
-    public String getDate(int year, int month, int dayOfMonth) {
-        Calendar startDate = new GregorianCalendar(year, month, dayOfMonth);
-        DateFormat df = new SimpleDateFormat("d MMMM yyyy - EEEE");
-        return (df.format(startDate.getTime()));
     }
 }
