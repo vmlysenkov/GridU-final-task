@@ -1,19 +1,13 @@
 import java.util.Calendar;
-import java.util.Map;
-import java.util.stream.Collectors;
 
 public class DetermineCourseCompletion {
     static int workHoursPerDay = 8;
     static int daysInWeek = 5;
 
-    public static Calendar getCourseCompletionDate(Calendar startDate, Map<String, Integer> courseAndDuration) {
-        Integer duration = courseAndDuration.entrySet().stream()
-                .map(Map.Entry::getValue)
-                .collect(Collectors.toList())
-                .stream().reduce(0, Integer::sum);
+    public static Calendar getCourseCompletionDate(Calendar startDate, int coursesDuration) {
 
-        int wholeDaysToCompleteCourse = duration / workHoursPerDay;
-        if (duration % workHoursPerDay != 0) {
+        int wholeDaysToCompleteCourse = coursesDuration / workHoursPerDay;
+        if (coursesDuration % workHoursPerDay != 0) {
             wholeDaysToCompleteCourse += 1;
         }
         int wholeWeeksToCompleteCourse = wholeDaysToCompleteCourse / daysInWeek;
