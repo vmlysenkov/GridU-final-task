@@ -26,5 +26,4 @@ public class DetermineCourseCompletionTest {
 
         assertEquals(expected.getTime(), actual.getTime());
     }
-
 }
