@@ -8,21 +8,21 @@ import static org.junit.Assert.*;
 public class DetermineCourseCompletionTest {
     @Test
     public void dateTest1(){
-        Calendar startDate = new GregorianCalendar(2022, 1, 4);
+        Calendar startDate = new GregorianCalendar(2022, 0, 27);
         int coursesDuration = 64;
 
         Calendar actual = DetermineCourseCompletion.getCourseCompletionDate(startDate, coursesDuration);
-        Calendar expected = new GregorianCalendar(2022, 1, 13);
+        Calendar expected = new GregorianCalendar(2022, 1, 7);
 
         assertEquals(expected.getTime(), actual.getTime());
     }
     @Test
     public void dateTest2(){
-        Calendar startDate = new GregorianCalendar(2022, 1, 7);
+        Calendar startDate = new GregorianCalendar(2022, 1, 18);
         int coursesDuration = 30;
 
         Calendar actual = DetermineCourseCompletion.getCourseCompletionDate(startDate, coursesDuration);
-        Calendar expected = new GregorianCalendar(2022, 1, 12);
+        Calendar expected = new GregorianCalendar(2022, 1, 23);
 
         assertEquals(expected.getTime(), actual.getTime());
     }
