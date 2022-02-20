@@ -4,16 +4,21 @@ public class DetermineCourseCompletion {
     static int workHoursPerDay = 8;
 
     public static Calendar getCourseCompletionDate(Calendar startDate, int coursesDuration) {
-      coursesDuration -= workHoursPerDay;
+      int coursesHoursLeftTillTheEnd = coursesDuration - workHoursPerDay;
         do {
             startDate.add(Calendar.DAY_OF_MONTH, 1);
             if (startDate.get(Calendar.DAY_OF_WEEK) != Calendar.SATURDAY && startDate.get(Calendar.DAY_OF_WEEK) != Calendar.SUNDAY) {
-                coursesDuration = coursesDuration - workHoursPerDay;
+                coursesHoursLeftTillTheEnd = coursesHoursLeftTillTheEnd - workHoursPerDay;
             }
 
-        } while (coursesDuration > 0);
+        } while (coursesHoursLeftTillTheEnd > 0);
 
         Calendar endDate = startDate;
+        if ((coursesDuration % workHoursPerDay) == 0) {
+            endDate.set(Calendar.HOUR_OF_DAY, CourseCompletion.endWorkingHour);
+        } else {
+            endDate.set(Calendar.HOUR_OF_DAY, ((coursesDuration % workHoursPerDay) + CourseCompletion.startWorkingHour));
+        }
         return endDate;
     }
 }

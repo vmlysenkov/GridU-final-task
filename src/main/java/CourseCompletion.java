@@ -7,8 +7,8 @@ public class CourseCompletion {
     private static int daysFromCourseCompletion = 0;
     private static int hoursFromCourseCompletion = 0;
     private static ArrayList<Integer> daysAndHoursAfterCourseCompletion = new ArrayList<>();
-    private static int startWorkingHour = 10;
-    private static int endWorkingHour = 18;
+    public static int startWorkingHour = 10;
+    public static int endWorkingHour = 18;
 
 //    public CourseCompletion() {
 //
@@ -28,28 +28,26 @@ public class CourseCompletion {
         System.out.println(currentDate.get(Calendar.HOUR_OF_DAY));
         System.out.println(currentDate.getTime());
         System.out.println(endDate.getTime());
-        if (currentDate.getTimeInMillis() < endDate.getTimeInMillis()) {
-            currentDate.setTime(endDate.getTime());
-            endDate.setTime(currentDate.getTime());
+        if (currentDate.getTimeInMillis() > endDate.getTimeInMillis()) {
+//            currentDate.setTime(endDate.getTime());
+//            endDate.setTime(currentDate.getTime());
+            if ((coursesDuration % DetermineCourseCompletion.workHoursPerDay) == 0) {
+                do {
+                    currentDate.add(Calendar.DAY_OF_MONTH, -1);
+                    daysFromCourseCompletion++;
+                } while (currentDate.getTimeInMillis() > endDate.getTimeInMillis());
 
+            }
+            if (hoursToday >= startWorkingHour && hoursToday <= endWorkingHour) {
+                hoursFromCourseCompletion = hoursToday - startWorkingHour;
+                daysFromCourseCompletion--;
+            } else {
+                hoursFromCourseCompletion = 0;
+            }
+
+            daysAndHoursAfterCourseCompletion.add(daysFromCourseCompletion-1);
+            daysAndHoursAfterCourseCompletion.add(hoursFromCourseCompletion);
         }
-        if ((coursesDuration % DetermineCourseCompletion.workHoursPerDay) == 0) {
-            do {
-                currentDate.add(Calendar.DAY_OF_MONTH, -1);
-                daysFromCourseCompletion++;
-            } while (currentDate.getTimeInMillis() > endDate.getTimeInMillis());
-
-        }
-        if (hoursToday >= startWorkingHour && hoursToday <= endWorkingHour) {
-            hoursFromCourseCompletion = hoursToday - startWorkingHour;
-            daysFromCourseCompletion--;
-        } else {
-            hoursFromCourseCompletion = 0;
-        }
-
-        daysAndHoursAfterCourseCompletion.add(daysFromCourseCompletion);
-        daysAndHoursAfterCourseCompletion.add(hoursFromCourseCompletion);
-
 //        if ((coursesDuration % DetermineCourseCompletion.workHoursPerDay) != 0) {
 //            endDate.add(Calendar.DAY_OF_WEEK, -1);
 //            Calendar currentDate = Calendar.getInstance();
