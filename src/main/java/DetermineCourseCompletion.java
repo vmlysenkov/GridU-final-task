@@ -4,7 +4,7 @@ public class DetermineCourseCompletion {
     static int workHoursPerDay = 8;
 
     public static Calendar getCourseCompletionDate(Calendar startDate, int coursesDuration) {
-      int coursesHoursLeftTillTheEnd = coursesDuration - workHoursPerDay;
+        int coursesHoursLeftTillTheEnd = coursesDuration - workHoursPerDay;
         do {
             startDate.add(Calendar.DAY_OF_MONTH, 1);
             if (startDate.get(Calendar.DAY_OF_WEEK) != Calendar.SATURDAY && startDate.get(Calendar.DAY_OF_WEEK) != Calendar.SUNDAY) {
