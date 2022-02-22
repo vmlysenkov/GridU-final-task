@@ -6,7 +6,7 @@ import java.util.GregorianCalendar;
 
 import static org.junit.Assert.assertEquals;
 
-public class DetermineCourseCompletionTest {
+public class DetermineAmountOfTimeBeforeOrAfterCourseCompletionTest {
     @Test
     public void dateTest1() {
         Calendar startDate = new GregorianCalendar(2022, Calendar.FEBRUARY, 4);
@@ -33,27 +33,27 @@ public class DetermineCourseCompletionTest {
 
     @Test
     public void shouldCalculateDaysAndHoursAfterCourseCompletion1() {
-        Calendar startDate = new GregorianCalendar(2022, 1, 7);
+        Calendar startDate = new GregorianCalendar(2022, Calendar.FEBRUARY, 4);
         int coursesDuration = 64;
 
         Calendar endDate = DetermineCourseCompletion.getCourseCompletionDate(startDate, coursesDuration);
-        ArrayList<Integer> actual = CourseCompletion.getTimeFromCourseCompletion(endDate, coursesDuration);
+        ArrayList<Integer> actual = AmountOfTimeBeforeOrAfterCourseCompletion.calculateAmountOfTimeBeforeOrAfterCourseCompletion(endDate, coursesDuration);
         ArrayList<Integer> expected = new ArrayList<>();
-        expected.add(4);
-        expected.add(0);
+        expected.add(6);
+        expected.add(7);
         assertEquals(expected, actual);
     }
 
     @Test
     public void shouldCalculateDaysAndHoursAfterCourseCompletion2() {
-        Calendar startDate = new GregorianCalendar(2022, 1, 14);
+        Calendar startDate = new GregorianCalendar(2022, Calendar.FEBRUARY, 4);
         int coursesDuration = 30;
 
         Calendar endDate = DetermineCourseCompletion.getCourseCompletionDate(startDate, coursesDuration);
-        ArrayList<Integer> actual = CourseCompletion.getTimeFromCourseCompletion(endDate, coursesDuration);
+        ArrayList<Integer> actual = AmountOfTimeBeforeOrAfterCourseCompletion.calculateAmountOfTimeBeforeOrAfterCourseCompletion(endDate, coursesDuration);
         ArrayList<Integer> expected = new ArrayList<>();
-        expected.add(3);
-        expected.add(2);
+        expected.add(12);
+        expected.add(9);
         assertEquals(expected, actual);
     }
 
@@ -63,10 +63,10 @@ public class DetermineCourseCompletionTest {
         int coursesDuration = 64;
 
         Calendar endDate = DetermineCourseCompletion.getCourseCompletionDate(startDate, coursesDuration);
-        ArrayList<Integer> actual = CourseCompletion.getTimeFromCourseCompletion(endDate, coursesDuration);
+        ArrayList<Integer> actual = AmountOfTimeBeforeOrAfterCourseCompletion.calculateAmountOfTimeBeforeOrAfterCourseCompletion(endDate, coursesDuration);
         ArrayList<Integer> expected = new ArrayList<>();
         expected.add(3);
-        expected.add(6);
+        expected.add(1);
         assertEquals(expected, actual);
     }
 
@@ -76,10 +76,10 @@ public class DetermineCourseCompletionTest {
         int coursesDuration = 30;
 
         Calendar endDate = DetermineCourseCompletion.getCourseCompletionDate(startDate, coursesDuration);
-        ArrayList<Integer> actual = CourseCompletion.getTimeFromCourseCompletion(endDate, coursesDuration);
+        ArrayList<Integer> actual = AmountOfTimeBeforeOrAfterCourseCompletion.calculateAmountOfTimeBeforeOrAfterCourseCompletion(endDate, coursesDuration);
         ArrayList<Integer> expected = new ArrayList<>();
         expected.add(1);
-        expected.add(12);
+        expected.add(7);
         assertEquals(expected, actual);
     }
 }

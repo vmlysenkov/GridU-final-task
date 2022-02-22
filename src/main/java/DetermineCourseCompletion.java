@@ -15,9 +15,9 @@ public class DetermineCourseCompletion {
 
         Calendar endDate = startDate;
         if ((coursesDuration % workHoursPerDay) == 0) {
-            endDate.set(Calendar.HOUR_OF_DAY, CourseCompletion.endWorkingHour);
+            endDate.set(Calendar.HOUR_OF_DAY, AmountOfTimeBeforeOrAfterCourseCompletion.endWorkingHour);
         } else {
-            endDate.set(Calendar.HOUR_OF_DAY, ((coursesDuration % workHoursPerDay) + CourseCompletion.startWorkingHour));
+            endDate.set(Calendar.HOUR_OF_DAY, ((coursesDuration % workHoursPerDay) + AmountOfTimeBeforeOrAfterCourseCompletion.startWorkingHour));
         }
         return endDate;
     }

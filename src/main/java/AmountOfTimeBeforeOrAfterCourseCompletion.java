@@ -3,14 +3,13 @@ import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
-import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
-public class CourseCompletion {
+public class AmountOfTimeBeforeOrAfterCourseCompletion {
     public static int startWorkingHour = 10;
     public static int endWorkingHour = 18;
 
-    public static ArrayList<Integer> getTimeFromCourseCompletion(Calendar endDate, int coursesDuration) {
+    public static ArrayList<Integer> calculateAmountOfTimeBeforeOrAfterCourseCompletion(Calendar endDate, int coursesDuration) {
         ArrayList<Integer> daysAndHoursBeforeOrAfterCourseCompletion = new ArrayList<>();
         int daysAfterCourseCompletion = 0;
         int daysBeforeCourseCompletion = 0;
@@ -25,34 +24,45 @@ public class CourseCompletion {
         System.out.println(currentDate.get(Calendar.DAY_OF_WEEK));
         System.out.println(currentDate.getTime());
         System.out.println(endDate.getTime());
-        if (currentDate.getTimeInMillis() > endDate.getTimeInMillis()) {
-            do {
-                currentDate.add(Calendar.DAY_OF_MONTH, -1);
-                daysAfterCourseCompletion++;
-            } while (currentDate.getTimeInMillis() > endDate.getTimeInMillis());
+        LocalDate today = LocalDate.ofInstant(currentDate.toInstant(), ZoneId.systemDefault());
+        LocalDate finish = LocalDate.ofInstant(endDate.toInstant(), ZoneId.systemDefault());
 
-            if (hoursToday >= startWorkingHour && hoursToday <= endWorkingHour) {
-                if (Calendar.getInstance().get(Calendar.DAY_OF_WEEK) != Calendar.SATURDAY && Calendar.getInstance().get(Calendar.DAY_OF_WEEK) != Calendar.SUNDAY) {
+        if (currentDate.getTimeInMillis() > endDate.getTimeInMillis()) {
+            List<LocalDate> workingDays = finish.datesUntil(today.plusDays(1))
+                    .collect(Collectors.toList());
+            if (amountOfWorkingHoursAtLastDay == 0) {
+                if (hoursToday < startWorkingHour || Calendar.getInstance().get(Calendar.DAY_OF_WEEK) ==
+                        Calendar.SATURDAY || Calendar.getInstance().get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY) {
+                    daysAfterCourseCompletion = workingDays.size() - 2;
+                } else if (hoursToday >= startWorkingHour && hoursToday <= endWorkingHour) {
+                    daysAfterCourseCompletion = workingDays.size() - 2;
                     hoursAfterCourseCompletion = hoursToday - startWorkingHour;
-                    daysAfterCourseCompletion--;
+                } else {
+                    daysAfterCourseCompletion = workingDays.size() - 1;
                 }
             } else {
-                hoursAfterCourseCompletion = 0;
+                if (hoursToday < startWorkingHour || Calendar.getInstance().get(Calendar.DAY_OF_WEEK) ==
+                        Calendar.SATURDAY || Calendar.getInstance().get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY) {
+                    daysAfterCourseCompletion = workingDays.size() - 2;
+                    hoursAfterCourseCompletion = endWorkingHour - (startWorkingHour + amountOfWorkingHoursAtLastDay);
+                } else if (hoursToday >= startWorkingHour && hoursToday <= endWorkingHour) {
+                    daysAfterCourseCompletion = workingDays.size() - 2;
+                    hoursAfterCourseCompletion = hoursToday - startWorkingHour + endWorkingHour - (startWorkingHour + amountOfWorkingHoursAtLastDay);
+                } else {
+                    daysAfterCourseCompletion = workingDays.size() - 1;
+                    hoursAfterCourseCompletion = endWorkingHour - (startWorkingHour + amountOfWorkingHoursAtLastDay);
+                }
             }
-            if ((coursesDuration % DetermineCourseCompletion.workHoursPerDay) != 0) {
-                hoursAfterCourseCompletion = hoursAfterCourseCompletion + endWorkingHour - (coursesDuration % DetermineCourseCompletion.workHoursPerDay + startWorkingHour);
-            }
-            daysAndHoursBeforeOrAfterCourseCompletion.add(daysAfterCourseCompletion - 1);
+            daysAndHoursBeforeOrAfterCourseCompletion.add(daysAfterCourseCompletion);
             daysAndHoursBeforeOrAfterCourseCompletion.add(hoursAfterCourseCompletion);
+            System.out.println(workingDays);
+
         } else {
-            Predicate<Calendar> isWeekend = date -> date.get(Calendar.DAY_OF_WEEK) == Calendar.SATURDAY
-                    || date.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY;
-            LocalDate today = LocalDate.ofInstant(currentDate.toInstant(), ZoneId.systemDefault());
-            LocalDate finish = LocalDate.ofInstant(endDate.toInstant(), ZoneId.systemDefault());
             List<LocalDate> workingDays = today.datesUntil(finish.plusDays(1))
                     .collect(Collectors.toList());
             if (amountOfWorkingHoursAtLastDay == 0) {
-                if (hoursToday < startWorkingHour) {
+                if (hoursToday < startWorkingHour || Calendar.getInstance().get(Calendar.DAY_OF_WEEK) ==
+                        Calendar.SATURDAY || Calendar.getInstance().get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY) {
                     daysBeforeCourseCompletion = workingDays.size();
                 } else if (hoursToday >= startWorkingHour && hoursToday <= endWorkingHour) {
                     daysBeforeCourseCompletion = workingDays.size() - 1;
@@ -61,7 +71,8 @@ public class CourseCompletion {
                     daysBeforeCourseCompletion = workingDays.size() - 1;
                 }
             } else {
-                if (hoursToday < startWorkingHour) {
+                if (hoursToday < startWorkingHour || Calendar.getInstance().get(Calendar.DAY_OF_WEEK) ==
+                        Calendar.SATURDAY || Calendar.getInstance().get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY) {
                     daysBeforeCourseCompletion = workingDays.size() - 1;
                     hoursBeforeCourseCompletion = amountOfWorkingHoursAtLastDay;
                 } else if (hoursToday >= startWorkingHour && hoursToday <= endWorkingHour) {

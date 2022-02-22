@@ -27,7 +27,7 @@ public class Main {
         //System.out.println("Student 1 will complete his education on " + df.format(DetermineCourseCompletion.getCourseCompletionDate(startDateStudent1, coursesDurationOfStudent1).getTime()));
         Calendar endDate = DetermineCourseCompletion.getCourseCompletionDate(startDateStudent1, coursesDurationOfStudent1);
         System.out.println(endDate.getTime());
-        System.out.println(CourseCompletion.getTimeFromCourseCompletion(endDate, coursesDurationOfStudent1));
+        System.out.println(AmountOfTimeBeforeOrAfterCourseCompletion.calculateAmountOfTimeBeforeOrAfterCourseCompletion(endDate, coursesDurationOfStudent1));
 
         //System.out.println(CourseCompletion.);
 
