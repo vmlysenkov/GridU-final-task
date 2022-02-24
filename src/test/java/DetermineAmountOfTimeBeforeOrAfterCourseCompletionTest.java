@@ -1,5 +1,8 @@
+import org.junit.Ignore;
 import org.junit.Test;
 
+import java.time.LocalDate;
+import java.time.Month;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -7,6 +10,30 @@ import java.util.GregorianCalendar;
 import static org.junit.Assert.assertEquals;
 
 public class DetermineAmountOfTimeBeforeOrAfterCourseCompletionTest {
+
+    @Test
+    public void shouldDetermineEndDateWhenCourseEndsAt6PM() {
+        LocalDate startDate = LocalDate.of(2022, Month.FEBRUARY, 4);
+        int coursesDuration = 64;
+
+        LocalDate actual = DetermineCourseCompletion.getCourseCompletionDate(startDate, coursesDuration);
+        LocalDate expected = LocalDate.of(2022, Month.FEBRUARY, 15);
+        expected.atTime(18, 0);
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    public void shouldDetermineEndDateWhenCourseEndsDuringWorkingDay() {
+        LocalDate startDate = LocalDate.of(2022, Month.FEBRUARY, 18);
+        int coursesDuration = 30;
+
+        LocalDate actual = DetermineCourseCompletion.getCourseCompletionDate(startDate, coursesDuration);
+        LocalDate expected = LocalDate.of(2022, Month.FEBRUARY, 23);
+        expected.atTime(16, 0);
+        assertEquals(expected, actual);
+    }
+
+    @Ignore
     @Test
     public void dateTest1() {
         Calendar startDate = new GregorianCalendar(2022, Calendar.FEBRUARY, 4);
@@ -19,6 +46,7 @@ public class DetermineAmountOfTimeBeforeOrAfterCourseCompletionTest {
         assertEquals(expected.getTime(), actual.getTime());
     }
 
+    @Ignore
     @Test
     public void dateTest2() {
         Calendar startDate = new GregorianCalendar(2022, Calendar.FEBRUARY, 18);
@@ -31,6 +59,7 @@ public class DetermineAmountOfTimeBeforeOrAfterCourseCompletionTest {
         assertEquals(expected.getTime(), actual.getTime());
     }
 
+    @Ignore
     @Test
     public void shouldCalculateDaysAndHoursAfterCourseCompletion1() {
         Calendar startDate = new GregorianCalendar(2022, Calendar.FEBRUARY, 4);
@@ -44,6 +73,7 @@ public class DetermineAmountOfTimeBeforeOrAfterCourseCompletionTest {
         assertEquals(expected, actual);
     }
 
+    @Ignore
     @Test
     public void shouldCalculateDaysAndHoursAfterCourseCompletion2() {
         Calendar startDate = new GregorianCalendar(2022, Calendar.FEBRUARY, 4);
@@ -57,6 +87,7 @@ public class DetermineAmountOfTimeBeforeOrAfterCourseCompletionTest {
         assertEquals(expected, actual);
     }
 
+    @Ignore
     @Test
     public void shouldCalculateDaysAndHoursBeforeCourseCompletion1() {
         Calendar startDate = new GregorianCalendar(2022, Calendar.FEBRUARY, 16);
@@ -70,6 +101,7 @@ public class DetermineAmountOfTimeBeforeOrAfterCourseCompletionTest {
         assertEquals(expected, actual);
     }
 
+    @Ignore
     @Test
     public void shouldCalculateDaysAndHoursBeforeCourseCompletion2() {
         Calendar startDate = new GregorianCalendar(2022, Calendar.FEBRUARY, 21);
