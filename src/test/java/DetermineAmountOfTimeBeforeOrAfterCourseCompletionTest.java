@@ -33,6 +33,58 @@ public class DetermineAmountOfTimeBeforeOrAfterCourseCompletionTest {
         assertEquals(expected, actual);
     }
 
+    @Test
+    public void shouldCalculateDaysAndHoursAfterCourseCompletionUsingLocalDate1() {
+        LocalDate startDate = LocalDate.of(2022, Month.FEBRUARY, 4);
+        int coursesDuration = 64;
+
+        LocalDate endDate = DetermineCourseCompletion.getCourseCompletionDate(startDate, coursesDuration);
+        ArrayList<Integer> actual = AmountOfTimeBeforeOrAfterCourseCompletion.calculateAmountOfTimeBeforeOrAfterCourseCompletion(endDate, coursesDuration);
+        ArrayList<Integer> expected = new ArrayList<>();
+        expected.add(8);
+        expected.add(3);
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    public void shouldCalculateDaysAndHoursAfterCourseCompletionUsingLocalDate2() {
+        LocalDate startDate = LocalDate.of(2022, Month.FEBRUARY, 4);
+        int coursesDuration = 30;
+
+        LocalDate endDate = DetermineCourseCompletion.getCourseCompletionDate(startDate, coursesDuration);
+        ArrayList<Integer> actual = AmountOfTimeBeforeOrAfterCourseCompletion.calculateAmountOfTimeBeforeOrAfterCourseCompletion(endDate, coursesDuration);
+        ArrayList<Integer> expected = new ArrayList<>();
+        expected.add(14);
+        expected.add(5);
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    public void shouldCalculateDaysAndHoursBeforeCourseCompletionUsingLocalDate1() {
+        LocalDate startDate = LocalDate.of(2022, Month.FEBRUARY, 16);
+        int coursesDuration = 64;
+
+        LocalDate endDate = DetermineCourseCompletion.getCourseCompletionDate(startDate, coursesDuration);
+        ArrayList<Integer> actual = AmountOfTimeBeforeOrAfterCourseCompletion.calculateAmountOfTimeBeforeOrAfterCourseCompletion(endDate, coursesDuration);
+        ArrayList<Integer> expected = new ArrayList<>();
+        expected.add(1);
+        expected.add(5);
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    public void shouldCalculateDaysAndHoursBeforeCourseCompletionUsingLocalDate2() {
+        LocalDate startDate = LocalDate.of(2022, Month.FEBRUARY, 21);
+        int coursesDuration = 30;
+
+        LocalDate endDate = DetermineCourseCompletion.getCourseCompletionDate(startDate, coursesDuration);
+        ArrayList<Integer> actual = AmountOfTimeBeforeOrAfterCourseCompletion.calculateAmountOfTimeBeforeOrAfterCourseCompletion(endDate, coursesDuration);
+        ArrayList<Integer> expected = new ArrayList<>();
+        expected.add(0);
+        expected.add(3);
+        assertEquals(expected, actual);
+    }
+
     @Ignore
     @Test
     public void dateTest1() {
