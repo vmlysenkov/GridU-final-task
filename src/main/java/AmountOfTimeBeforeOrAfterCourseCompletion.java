@@ -131,7 +131,7 @@ public class AmountOfTimeBeforeOrAfterCourseCompletion {
             }
             daysAndHoursBeforeOrAfterCourseCompletion.add(daysAfterCourseCompletion);
             daysAndHoursBeforeOrAfterCourseCompletion.add(hoursAfterCourseCompletion);
-            System.out.println(workingDays);
+            System.out.println("Training completed. " + daysAfterCourseCompletion + " d " + hoursAfterCourseCompletion + " hours have passed since the end.");
 
         } else if (currentDate.isBefore(endDate)) {
             List<LocalDate> workingDays = currentDate.datesUntil(endDate.plusDays(1))
@@ -161,35 +161,41 @@ public class AmountOfTimeBeforeOrAfterCourseCompletion {
             }
             daysAndHoursBeforeOrAfterCourseCompletion.add(daysBeforeCourseCompletion);
             daysAndHoursBeforeOrAfterCourseCompletion.add(hoursBeforeCourseCompletion);
-            System.out.println(workingDays);
+            System.out.println("Training is not finished. " + daysBeforeCourseCompletion + " d " + hoursBeforeCourseCompletion + " hours are left until the end.");
         } else {
             if (amountOfWorkingHoursAtLastDay == 0) {
                 if (hoursToday < startWorkingHour) {
                     daysBeforeCourseCompletion = 1;
                     daysAndHoursBeforeOrAfterCourseCompletion.add(daysBeforeCourseCompletion);
                     daysAndHoursBeforeOrAfterCourseCompletion.add(hoursBeforeCourseCompletion);
+                    System.out.println("Training is not finished. " + hoursBeforeCourseCompletion + " hours are left until the end.");
                 } else if (hoursToday >= startWorkingHour && hoursToday <= endWorkingHour) {
                     hoursBeforeCourseCompletion = endWorkingHour - hoursToday;
                     daysAndHoursBeforeOrAfterCourseCompletion.add(daysBeforeCourseCompletion);
                     daysAndHoursBeforeOrAfterCourseCompletion.add(hoursBeforeCourseCompletion);
+                    System.out.println("Training is not finished. " + hoursBeforeCourseCompletion + " hours are left until the end.");
                 } else {
                     hoursAfterCourseCompletion = hoursToday - endWorkingHour;
                     daysAndHoursBeforeOrAfterCourseCompletion.add(daysAfterCourseCompletion);
                     daysAndHoursBeforeOrAfterCourseCompletion.add(hoursAfterCourseCompletion);
+                    System.out.println("Training completed. " + hoursAfterCourseCompletion + " hours have passed since the end.");
                 }
             } else {
                 if (hoursToday < startWorkingHour) {
                     hoursBeforeCourseCompletion = amountOfWorkingHoursAtLastDay;
                     daysAndHoursBeforeOrAfterCourseCompletion.add(daysBeforeCourseCompletion);
                     daysAndHoursBeforeOrAfterCourseCompletion.add(hoursBeforeCourseCompletion);
+                    System.out.println("Training is not finished. " + hoursBeforeCourseCompletion + " hours are left until the end.");
                 } else if (hoursToday >= startWorkingHour && hoursToday <= (amountOfWorkingHoursAtLastDay + startWorkingHour)) {
                     hoursBeforeCourseCompletion = amountOfWorkingHoursAtLastDay + startWorkingHour - hoursToday;
                     daysAndHoursBeforeOrAfterCourseCompletion.add(daysBeforeCourseCompletion);
                     daysAndHoursBeforeOrAfterCourseCompletion.add(hoursBeforeCourseCompletion);
+                    System.out.println("Training is not finished. " + hoursBeforeCourseCompletion + " hours are left until the end.");
                 } else {
                     hoursAfterCourseCompletion = hoursToday - (amountOfWorkingHoursAtLastDay + startWorkingHour);
                     daysAndHoursBeforeOrAfterCourseCompletion.add(daysAfterCourseCompletion);
                     daysAndHoursBeforeOrAfterCourseCompletion.add(hoursAfterCourseCompletion);
+                    System.out.println("Training completed. " + hoursAfterCourseCompletion + " hours have passed since the end.");
                 }
             }
         }

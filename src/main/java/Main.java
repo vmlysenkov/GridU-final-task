@@ -1,17 +1,14 @@
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.Month;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
 import java.util.List;
 
 public class Main {
-    public static DateFormat df = new SimpleDateFormat("d MMMM yyyy - EEEE");
-    public static DateFormat df1 = new SimpleDateFormat("d MMMM yyyy, HH");
-
+    public static DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d MMMM yyyy - EEEE");
     public static void main(String[] args) {
+        LocalDate startDateStudent1 = LocalDate.of(2022, Month.FEBRUARY, 20);
         StudentData student1 = new StudentData("Ivanov Ivan", "Java Developer");
-        Calendar startDateStudent1 = new GregorianCalendar(2022, 0, 17);
         CourseData course1_1 = new CourseData("Java", 16);
         CourseData course1_2 = new CourseData("JDBC", 24);
         CourseData course1_3 = new CourseData("Spring", 16);
@@ -20,19 +17,24 @@ public class Main {
         coursesOfStudent1.add(course1_2);
         coursesOfStudent1.add(course1_3);
         int coursesDurationOfStudent1 = coursesOfStudent1.stream().mapToInt(d -> d.duration).sum();
-        System.out.printf("Total courses' duration of Student 1 is %d hours%n", coursesDurationOfStudent1);
-        System.out.println(student1);
-        System.out.println(df.format(startDateStudent1.getTime()));
-        System.out.printf("%s \n%s \n%s%n", course1_1, course1_2, course1_3);
-        //System.out.println("Student 1 will complete his education on " + df.format(DetermineCourseCompletion.getCourseCompletionDate(startDateStudent1, coursesDurationOfStudent1).getTime()));
-        Calendar endDate = DetermineCourseCompletion.getCourseCompletionDate(startDateStudent1, coursesDurationOfStudent1);
-        System.out.println(endDate.getTime());
-        System.out.println(AmountOfTimeBeforeOrAfterCourseCompletion.calculateAmountOfTimeBeforeOrAfterCourseCompletion(endDate, coursesDurationOfStudent1));
 
-        //System.out.println(CourseCompletion.);
+        System.out.println("Short report:");
+        System.out.print(student1.name + " (" + student1.curriculum + ") - ");
+        AmountOfTimeBeforeOrAfterCourseCompletion.calculateAmountOfTimeBeforeOrAfterCourseCompletion((DetermineCourseCompletion.getCourseCompletionDate(startDateStudent1, (course1_1.duration + course1_2.duration + course1_3.duration))), (course1_1.duration + course1_2.duration + course1_3.duration));
+        System.out.println();
+        System.out.println("Full report:");
+        System.out.println("student name: " + student1.name);
+        System.out.println("working time (from " + AmountOfTimeBeforeOrAfterCourseCompletion.startWorkingHour + " to " + AmountOfTimeBeforeOrAfterCourseCompletion.endWorkingHour + ")");
+        System.out.println("program name: " + student1.curriculum);
+        System.out.println("program duration: " + coursesDurationOfStudent1 + " hours");
+        System.out.println("start date: " + startDateStudent1.format(formatter));
+        System.out.println("end date: " + DetermineCourseCompletion.getCourseCompletionDate(startDateStudent1, coursesDurationOfStudent1).format(formatter));
+        AmountOfTimeBeforeOrAfterCourseCompletion.calculateAmountOfTimeBeforeOrAfterCourseCompletion((DetermineCourseCompletion.getCourseCompletionDate(startDateStudent1, (course1_1.duration + course1_2.duration + course1_3.duration))), (course1_1.duration + course1_2.duration + course1_3.duration));
+        System.out.println();
 
+        LocalDate startDateStudent2 = LocalDate.of(2022, Month.FEBRUARY, 4);
         StudentData student2 = new StudentData("Sidorov Ivan", "AQE");
-        Calendar startDateStudent2 = new GregorianCalendar(2020, 5, 1);
+//        Calendar startDateStudent2 = new GregorianCalendar(2020, 5, 1);
         CourseData course2_1 = new CourseData("Test design", 10);
         CourseData course2_2 = new CourseData("Page Object", 16);
         CourseData course2_3 = new CourseData("Selenium", 16);
@@ -40,11 +42,20 @@ public class Main {
         coursesOfStudent2.add(course2_1);
         coursesOfStudent2.add(course2_2);
         coursesOfStudent2.add(course2_3);
-        int courseDurationOfStudent2 = coursesOfStudent2.stream().mapToInt(d -> d.duration).sum();
-        System.out.printf("Total courses' duration of Student 2 is %d hours%n", courseDurationOfStudent2);
-        System.out.println(student2);
-        System.out.println(df.format(startDateStudent2.getTime()));
-        System.out.printf("%s \n%s \n%s%n", course2_1, course2_2, course2_3);
-        System.out.println("Student 2 will complete his education on " + df.format(DetermineCourseCompletion.getCourseCompletionDate(startDateStudent2, courseDurationOfStudent2).getTime()));
+        int coursesDurationOfStudent2 = coursesOfStudent2.stream().mapToInt(d -> d.duration).sum();
+
+        System.out.println("Short report:");
+        System.out.print(student2.name + " (" + student2.curriculum + ") - ");
+        AmountOfTimeBeforeOrAfterCourseCompletion.calculateAmountOfTimeBeforeOrAfterCourseCompletion((DetermineCourseCompletion.getCourseCompletionDate(startDateStudent2, (course2_1.duration + course2_2.duration + course2_3.duration))), (course2_1.duration + course2_2.duration + course2_3.duration));
+        System.out.println();
+        System.out.println("Full report:");
+        System.out.println("student name: " + student2.name);
+        System.out.println("working time (from " + AmountOfTimeBeforeOrAfterCourseCompletion.startWorkingHour + " to " + AmountOfTimeBeforeOrAfterCourseCompletion.endWorkingHour + ")");
+        System.out.println("program name: " + student2.curriculum);
+        System.out.println("program duration: " + coursesDurationOfStudent2 + " hours");
+        System.out.println("start date: " + startDateStudent2.format(formatter));
+        System.out.println("end date: " + DetermineCourseCompletion.getCourseCompletionDate(startDateStudent2, coursesDurationOfStudent2).format(formatter));
+        AmountOfTimeBeforeOrAfterCourseCompletion.calculateAmountOfTimeBeforeOrAfterCourseCompletion((DetermineCourseCompletion.getCourseCompletionDate(startDateStudent2, (course2_1.duration + course2_2.duration + course2_3.duration))), (course2_1.duration + course2_2.duration + course2_3.duration));
+        System.out.println();
     }
 }
