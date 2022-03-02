@@ -1,8 +1,10 @@
-import java.time.LocalDate;
+import java.time.DayOfWeek;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.Calendar;
-
-import static java.time.DayOfWeek.SATURDAY;
-import static java.time.DayOfWeek.SUNDAY;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class DetermineCourseCompletion {
     static int workHoursPerDay = 8;
@@ -26,20 +28,18 @@ public class DetermineCourseCompletion {
         return endDate;
     }
 
-    public static LocalDate getCourseCompletionDate(LocalDate startDate, int coursesDuration) {
-        int coursesHoursLeftTillTheEnd = coursesDuration - workHoursPerDay;
-        do {
-            startDate = startDate.plusDays(1);
-            if (startDate.getDayOfWeek() != SATURDAY && startDate.getDayOfWeek() != SUNDAY) {
-                coursesHoursLeftTillTheEnd = coursesHoursLeftTillTheEnd - workHoursPerDay;
-            }
-        } while (coursesHoursLeftTillTheEnd > 0);
+    public static LocalDateTime getCourseCompletionDate(LocalDateTime startDate, int coursesDuration) {
+        List<LocalDateTime> dateUntilEnd =
+                Stream.iterate(startDate, d -> d.plusDays(1))
+                        .filter(d -> d.getDayOfWeek() != DayOfWeek.SATURDAY && d.getDayOfWeek() != DayOfWeek.SUNDAY)
+                        .limit(coursesDuration / workHoursPerDay)
+                        .collect(Collectors.toList());
 
-        LocalDate endDate = startDate;
+        LocalDateTime endDate = dateUntilEnd.get(dateUntilEnd.size() - 1);
         if ((coursesDuration % workHoursPerDay) == 0) {
-            endDate.atTime(AmountOfTimeBeforeOrAfterCourseCompletion.endWorkingHour, 0);
+            endDate = endDate.with(LocalTime.of(AmountOfTimeBeforeOrAfterCourseCompletion.endWorkingHour, 0));
         } else {
-            endDate.atTime(((coursesDuration % workHoursPerDay) + AmountOfTimeBeforeOrAfterCourseCompletion.startWorkingHour), 0);
+            endDate = endDate.plusDays(1).with(LocalTime.of(((coursesDuration % workHoursPerDay) + AmountOfTimeBeforeOrAfterCourseCompletion.startWorkingHour), 0));
         }
         return endDate;
     }
