@@ -1,10 +1,8 @@
 import java.time.*;
-import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 public class AmountOfTimeBeforeOrAfterCourseCompletion {
     public static int startWorkingHour = 10;
@@ -97,7 +95,10 @@ public class AmountOfTimeBeforeOrAfterCourseCompletion {
         long amountOfWholeDaysBetweenEndAndCurrent = Duration.between(currentDate, endDate).toDays();
         long amountOfWholeHoursBetweenEndAndCurrent;
 
-        if (endDate.plusDays(Math.abs(amountOfWholeDaysBetweenEndAndCurrent)).isBefore(currentDate) && coursesDuration % DetermineCourseCompletion.workHoursPerDay != 0) {
+        LocalDate endDateLocalDate = endDate.toLocalDate();
+        LocalDate currentDateLocalDate = currentDate.toLocalDate();
+
+        if (endDateLocalDate.plusDays(Math.abs(amountOfWholeDaysBetweenEndAndCurrent)).compareTo(currentDateLocalDate) < 0 && coursesDuration % DetermineCourseCompletion.workHoursPerDay != 0) {
             amountOfWholeHoursBetweenEndAndCurrent = Duration.between(currentDate, endDate.withHour(((coursesDuration % DetermineCourseCompletion.workHoursPerDay) + startWorkingHour))).toHoursPart() + nightTime;
         } else if (endDate.isAfter(currentDate) && coursesDuration % DetermineCourseCompletion.workHoursPerDay == 0) {
             amountOfWholeHoursBetweenEndAndCurrent = Duration.between(currentDate, endDate).toHoursPart();
@@ -109,7 +110,7 @@ public class AmountOfTimeBeforeOrAfterCourseCompletion {
         daysAndHoursBeforeOrAfterCourseCompletion.add((int) amountOfWholeDaysBetweenEndAndCurrent);
         daysAndHoursBeforeOrAfterCourseCompletion.add((int) amountOfWholeHoursBetweenEndAndCurrent);
 
-        if(amountOfWholeDaysBetweenEndAndCurrent >= 0 && amountOfWholeHoursBetweenEndAndCurrent > 0) {
+        if (amountOfWholeDaysBetweenEndAndCurrent >= 0 && amountOfWholeHoursBetweenEndAndCurrent > 0) {
             System.out.println("Training is not finished. " + amountOfWholeDaysBetweenEndAndCurrent + " d " + amountOfWholeHoursBetweenEndAndCurrent + " hours are left until the end.");
         } else {
             System.out.println("Training completed. " + -1 * amountOfWholeDaysBetweenEndAndCurrent + " d " + -1 * amountOfWholeHoursBetweenEndAndCurrent + " hours have passed since the end.");
