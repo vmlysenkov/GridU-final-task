@@ -1,13 +1,14 @@
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.Month;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Main {
-    public static DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d MMMM yyyy - EEEE");
+    public static DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d MMMM yyyy HH:mm - EEEE");
+
     public static void main(String[] args) {
-        LocalDate startDateStudent1 = LocalDate.of(2022, Month.FEBRUARY, 20);
+        LocalDateTime startDateStudent1 = LocalDateTime.of(2022, Month.FEBRUARY, 20, 10, 0);
         StudentData student1 = new StudentData("Ivanov Ivan", "Java Developer");
         CourseData course1_1 = new CourseData("Java", 16);
         CourseData course1_2 = new CourseData("JDBC", 24);
@@ -32,9 +33,8 @@ public class Main {
         AmountOfTimeBeforeOrAfterCourseCompletion.calculateAmountOfTimeBeforeOrAfterCourseCompletion((DetermineCourseCompletion.getCourseCompletionDate(startDateStudent1, (course1_1.duration + course1_2.duration + course1_3.duration))), (course1_1.duration + course1_2.duration + course1_3.duration));
         System.out.println();
 
-        LocalDate startDateStudent2 = LocalDate.of(2022, Month.FEBRUARY, 4);
+        LocalDateTime startDateStudent2 = LocalDateTime.of(2022, Month.FEBRUARY, 4, 10, 0);
         StudentData student2 = new StudentData("Sidorov Ivan", "AQE");
-//        Calendar startDateStudent2 = new GregorianCalendar(2020, 5, 1);
         CourseData course2_1 = new CourseData("Test design", 10);
         CourseData course2_2 = new CourseData("Page Object", 16);
         CourseData course2_3 = new CourseData("Selenium", 16);

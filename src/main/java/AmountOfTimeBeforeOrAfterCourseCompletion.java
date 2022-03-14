@@ -1,6 +1,4 @@
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
+import java.time.*;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -91,113 +89,31 @@ public class AmountOfTimeBeforeOrAfterCourseCompletion {
         return daysAndHoursBeforeOrAfterCourseCompletion;
     }
 
-    public static ArrayList<Integer> calculateAmountOfTimeBeforeOrAfterCourseCompletion(LocalDate endDate, int coursesDuration) {
-        ArrayList<Integer> daysAndHoursBeforeOrAfterCourseCompletion = new ArrayList<>();
-        int daysAfterCourseCompletion = 0;
-        int daysBeforeCourseCompletion = 0;
-        int hoursAfterCourseCompletion = 0;
-        int hoursBeforeCourseCompletion = 0;
-        int amountOfWorkingHoursAtLastDay = coursesDuration % DetermineCourseCompletion.workHoursPerDay;
-        endDate.atTime(23, 59);
-        LocalDate currentDate = LocalDate.now(ZoneId.of("Europe/Moscow"));
-        LocalDateTime currentDateToFindHourOfDay = LocalDateTime.now(ZoneId.of("Europe/Moscow"));
-        int hoursToday = currentDateToFindHourOfDay.getHour();
+    public static ArrayList<Integer> calculateAmountOfTimeBeforeOrAfterCourseCompletion(LocalDateTime endDate, int coursesDuration) {
+        LocalDateTime currentDate = LocalDateTime.of(2022, Month.MARCH, 2, 15, 0);
+        long nightTime = Duration.between(endDate.withHour(endWorkingHour), currentDate.withHour(startWorkingHour)).toHoursPart();
+        long amountOfWholeDaysBetweenEndAndCurrent = Duration.between(currentDate, endDate).toDays();
+        long amountOfWholeHoursBetweenEndAndCurrent;
 
-        if (currentDate.isAfter(endDate)) {
-            List<LocalDate> workingDays = endDate.datesUntil(currentDate.plusDays(1))
-                    .collect(Collectors.toList());
-            if (amountOfWorkingHoursAtLastDay == 0) {
-                if (hoursToday < startWorkingHour || Calendar.getInstance().get(Calendar.DAY_OF_WEEK) ==
-                        Calendar.SATURDAY || Calendar.getInstance().get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY) {
-                    daysAfterCourseCompletion = workingDays.size() - 2;
-                } else if (hoursToday >= startWorkingHour && hoursToday <= endWorkingHour) {
-                    daysAfterCourseCompletion = workingDays.size() - 2;
-                    hoursAfterCourseCompletion = hoursToday - startWorkingHour;
-                } else {
-                    daysAfterCourseCompletion = workingDays.size() - 1;
-                }
-            } else {
-                if (hoursToday < startWorkingHour || Calendar.getInstance().get(Calendar.DAY_OF_WEEK) ==
-                        Calendar.SATURDAY || Calendar.getInstance().get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY) {
-                    daysAfterCourseCompletion = workingDays.size() - 2;
-                    hoursAfterCourseCompletion = endWorkingHour - (startWorkingHour + amountOfWorkingHoursAtLastDay);
-                } else if (hoursToday >= startWorkingHour && hoursToday <= endWorkingHour) {
-                    daysAfterCourseCompletion = workingDays.size() - 2;
-                    hoursAfterCourseCompletion = hoursToday - startWorkingHour + endWorkingHour - (startWorkingHour + amountOfWorkingHoursAtLastDay);
-                } else {
-                    daysAfterCourseCompletion = workingDays.size() - 1;
-                    hoursAfterCourseCompletion = endWorkingHour - (startWorkingHour + amountOfWorkingHoursAtLastDay);
-                }
-            }
-            daysAndHoursBeforeOrAfterCourseCompletion.add(daysAfterCourseCompletion);
-            daysAndHoursBeforeOrAfterCourseCompletion.add(hoursAfterCourseCompletion);
-            System.out.println("Training completed. " + daysAfterCourseCompletion + " d " + hoursAfterCourseCompletion + " hours have passed since the end.");
+        LocalDate endDateLocalDate = endDate.toLocalDate();
+        LocalDate currentDateLocalDate = currentDate.toLocalDate();
 
-        } else if (currentDate.isBefore(endDate)) {
-            List<LocalDate> workingDays = currentDate.datesUntil(endDate.plusDays(1))
-                    .collect(Collectors.toList());
-            if (amountOfWorkingHoursAtLastDay == 0) {
-                if (hoursToday < startWorkingHour || Calendar.getInstance().get(Calendar.DAY_OF_WEEK) ==
-                        Calendar.SATURDAY || Calendar.getInstance().get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY) {
-                    daysBeforeCourseCompletion = workingDays.size();
-                } else if (hoursToday >= startWorkingHour && hoursToday <= endWorkingHour) {
-                    daysBeforeCourseCompletion = workingDays.size() - 1;
-                    hoursBeforeCourseCompletion = endWorkingHour - hoursToday;
-                } else {
-                    daysBeforeCourseCompletion = workingDays.size() - 1;
-                }
-            } else {
-                if (hoursToday < startWorkingHour || Calendar.getInstance().get(Calendar.DAY_OF_WEEK) ==
-                        Calendar.SATURDAY || Calendar.getInstance().get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY) {
-                    daysBeforeCourseCompletion = workingDays.size() - 1;
-                    hoursBeforeCourseCompletion = amountOfWorkingHoursAtLastDay;
-                } else if (hoursToday >= startWorkingHour && hoursToday <= endWorkingHour) {
-                    daysBeforeCourseCompletion = workingDays.size() - 2;
-                    hoursBeforeCourseCompletion = endWorkingHour - hoursToday + amountOfWorkingHoursAtLastDay;
-                } else {
-                    daysBeforeCourseCompletion = workingDays.size() - 2;
-                    hoursBeforeCourseCompletion = amountOfWorkingHoursAtLastDay;
-                }
-            }
-            daysAndHoursBeforeOrAfterCourseCompletion.add(daysBeforeCourseCompletion);
-            daysAndHoursBeforeOrAfterCourseCompletion.add(hoursBeforeCourseCompletion);
-            System.out.println("Training is not finished. " + daysBeforeCourseCompletion + " d " + hoursBeforeCourseCompletion + " hours are left until the end.");
+        if (endDateLocalDate.plusDays(Math.abs(amountOfWholeDaysBetweenEndAndCurrent)).compareTo(currentDateLocalDate) < 0 && coursesDuration % DetermineCourseCompletion.workHoursPerDay != 0) {
+            amountOfWholeHoursBetweenEndAndCurrent = Duration.between(currentDate, endDate.withHour(((coursesDuration % DetermineCourseCompletion.workHoursPerDay) + startWorkingHour))).toHoursPart() + nightTime;
+        } else if (endDate.isAfter(currentDate) && coursesDuration % DetermineCourseCompletion.workHoursPerDay == 0) {
+            amountOfWholeHoursBetweenEndAndCurrent = Duration.between(currentDate, endDate).toHoursPart();
         } else {
-            if (amountOfWorkingHoursAtLastDay == 0) {
-                if (hoursToday < startWorkingHour) {
-                    daysBeforeCourseCompletion = 1;
-                    daysAndHoursBeforeOrAfterCourseCompletion.add(daysBeforeCourseCompletion);
-                    daysAndHoursBeforeOrAfterCourseCompletion.add(hoursBeforeCourseCompletion);
-                    System.out.println("Training is not finished. " + hoursBeforeCourseCompletion + " hours are left until the end.");
-                } else if (hoursToday >= startWorkingHour && hoursToday <= endWorkingHour) {
-                    hoursBeforeCourseCompletion = endWorkingHour - hoursToday;
-                    daysAndHoursBeforeOrAfterCourseCompletion.add(daysBeforeCourseCompletion);
-                    daysAndHoursBeforeOrAfterCourseCompletion.add(hoursBeforeCourseCompletion);
-                    System.out.println("Training is not finished. " + hoursBeforeCourseCompletion + " hours are left until the end.");
-                } else {
-                    hoursAfterCourseCompletion = hoursToday - endWorkingHour;
-                    daysAndHoursBeforeOrAfterCourseCompletion.add(daysAfterCourseCompletion);
-                    daysAndHoursBeforeOrAfterCourseCompletion.add(hoursAfterCourseCompletion);
-                    System.out.println("Training completed. " + hoursAfterCourseCompletion + " hours have passed since the end.");
-                }
-            } else {
-                if (hoursToday < startWorkingHour) {
-                    hoursBeforeCourseCompletion = amountOfWorkingHoursAtLastDay;
-                    daysAndHoursBeforeOrAfterCourseCompletion.add(daysBeforeCourseCompletion);
-                    daysAndHoursBeforeOrAfterCourseCompletion.add(hoursBeforeCourseCompletion);
-                    System.out.println("Training is not finished. " + hoursBeforeCourseCompletion + " hours are left until the end.");
-                } else if (hoursToday >= startWorkingHour && hoursToday <= (amountOfWorkingHoursAtLastDay + startWorkingHour)) {
-                    hoursBeforeCourseCompletion = amountOfWorkingHoursAtLastDay + startWorkingHour - hoursToday;
-                    daysAndHoursBeforeOrAfterCourseCompletion.add(daysBeforeCourseCompletion);
-                    daysAndHoursBeforeOrAfterCourseCompletion.add(hoursBeforeCourseCompletion);
-                    System.out.println("Training is not finished. " + hoursBeforeCourseCompletion + " hours are left until the end.");
-                } else {
-                    hoursAfterCourseCompletion = hoursToday - (amountOfWorkingHoursAtLastDay + startWorkingHour);
-                    daysAndHoursBeforeOrAfterCourseCompletion.add(daysAfterCourseCompletion);
-                    daysAndHoursBeforeOrAfterCourseCompletion.add(hoursAfterCourseCompletion);
-                    System.out.println("Training completed. " + hoursAfterCourseCompletion + " hours have passed since the end.");
-                }
-            }
+            amountOfWholeHoursBetweenEndAndCurrent = Duration.between(currentDate, endDate.withHour(((coursesDuration % DetermineCourseCompletion.workHoursPerDay) + startWorkingHour))).toHoursPart();
+        }
+
+        ArrayList<Integer> daysAndHoursBeforeOrAfterCourseCompletion = new ArrayList<>();
+        daysAndHoursBeforeOrAfterCourseCompletion.add((int) amountOfWholeDaysBetweenEndAndCurrent);
+        daysAndHoursBeforeOrAfterCourseCompletion.add((int) amountOfWholeHoursBetweenEndAndCurrent);
+
+        if (amountOfWholeDaysBetweenEndAndCurrent >= 0 && amountOfWholeHoursBetweenEndAndCurrent > 0) {
+            System.out.println("Training is not finished. " + amountOfWholeDaysBetweenEndAndCurrent + " d " + amountOfWholeHoursBetweenEndAndCurrent + " hours are left until the end.");
+        } else {
+            System.out.println("Training completed. " + -1 * amountOfWholeDaysBetweenEndAndCurrent + " d " + -1 * amountOfWholeHoursBetweenEndAndCurrent + " hours have passed since the end.");
         }
         return daysAndHoursBeforeOrAfterCourseCompletion;
     }
