@@ -94,16 +94,17 @@ public class AmountOfTimeBeforeOrAfterCourseCompletion {
         long nightTime = Duration.between(endDate.withHour(endWorkingHour), currentDate.withHour(startWorkingHour)).toHoursPart();
         long amountOfWholeDaysBetweenEndAndCurrent = Duration.between(currentDate, endDate).toDays();
         long amountOfWholeHoursBetweenEndAndCurrent;
+        int remainingHoursOfEducation = coursesDuration % DetermineCourseCompletion.workHoursPerDay;
 
         LocalDate endDateLocalDate = endDate.toLocalDate();
         LocalDate currentDateLocalDate = currentDate.toLocalDate();
 
-        if (endDateLocalDate.plusDays(Math.abs(amountOfWholeDaysBetweenEndAndCurrent)).compareTo(currentDateLocalDate) < 0 && coursesDuration % DetermineCourseCompletion.workHoursPerDay != 0) {
-            amountOfWholeHoursBetweenEndAndCurrent = Duration.between(currentDate, endDate.withHour(((coursesDuration % DetermineCourseCompletion.workHoursPerDay) + startWorkingHour))).toHoursPart() + nightTime;
-        } else if (endDate.isAfter(currentDate) && coursesDuration % DetermineCourseCompletion.workHoursPerDay == 0) {
+        if (endDateLocalDate.plusDays(Math.abs(amountOfWholeDaysBetweenEndAndCurrent)).compareTo(currentDateLocalDate) < 0 && remainingHoursOfEducation != 0) {
+            amountOfWholeHoursBetweenEndAndCurrent = Duration.between(currentDate, endDate.withHour((remainingHoursOfEducation + startWorkingHour))).toHoursPart() + nightTime;
+        } else if (endDate.isAfter(currentDate) && remainingHoursOfEducation == 0) {
             amountOfWholeHoursBetweenEndAndCurrent = Duration.between(currentDate, endDate).toHoursPart();
         } else {
-            amountOfWholeHoursBetweenEndAndCurrent = Duration.between(currentDate, endDate.withHour(((coursesDuration % DetermineCourseCompletion.workHoursPerDay) + startWorkingHour))).toHoursPart();
+            amountOfWholeHoursBetweenEndAndCurrent = Duration.between(currentDate, endDate.withHour((remainingHoursOfEducation + startWorkingHour))).toHoursPart();
         }
 
         ArrayList<Integer> daysAndHoursBeforeOrAfterCourseCompletion = new ArrayList<>();
