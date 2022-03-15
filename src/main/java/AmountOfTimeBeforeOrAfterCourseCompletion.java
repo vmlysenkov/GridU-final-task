@@ -92,7 +92,7 @@ public class AmountOfTimeBeforeOrAfterCourseCompletion {
         return daysAndHoursBeforeOrAfterCourseCompletion;
     }
 
-    public static ArrayList<Integer> calculateAmountOfTimeBeforeOrAfterCourseCompletion(LocalDateTime endDate, LocalDateTime currentDate, int coursesDuration) {
+    public static DurationBeforeOrAfterCourseCompletion calculateAmountOfTimeBeforeOrAfterCourseCompletion(LocalDateTime endDate, LocalDateTime currentDate, int coursesDuration) {
         long nightTime = Duration.between(endDate.withHour(endWorkingHour), currentDate.withHour(startWorkingHour)).toHoursPart();
         long amountOfWholeDaysBetweenEndAndCurrent = Duration.between(currentDate, endDate).toDays();
         long amountOfWholeHoursBetweenEndAndCurrent;
@@ -109,15 +109,13 @@ public class AmountOfTimeBeforeOrAfterCourseCompletion {
             amountOfWholeHoursBetweenEndAndCurrent = Duration.between(currentDate, endDate.withHour((remainingHoursOfEducation + startWorkingHour))).toHoursPart();
         }
 
-        ArrayList<Integer> daysAndHoursBeforeOrAfterCourseCompletion = new ArrayList<>();
-        daysAndHoursBeforeOrAfterCourseCompletion.add((int) amountOfWholeDaysBetweenEndAndCurrent);
-        daysAndHoursBeforeOrAfterCourseCompletion.add((int) amountOfWholeHoursBetweenEndAndCurrent);
+        DurationBeforeOrAfterCourseCompletion durationBeforeOrAfterCourseCompletion = new DurationBeforeOrAfterCourseCompletion((int) amountOfWholeDaysBetweenEndAndCurrent, (int) amountOfWholeHoursBetweenEndAndCurrent);
 
         if (amountOfWholeDaysBetweenEndAndCurrent >= 0 && amountOfWholeHoursBetweenEndAndCurrent > 0) {
             System.out.println("Training is not finished. " + amountOfWholeDaysBetweenEndAndCurrent + " d " + amountOfWholeHoursBetweenEndAndCurrent + " hours are left until the end.");
         } else {
             System.out.println("Training completed. " + -1 * amountOfWholeDaysBetweenEndAndCurrent + " d " + -1 * amountOfWholeHoursBetweenEndAndCurrent + " hours have passed since the end.");
         }
-        return daysAndHoursBeforeOrAfterCourseCompletion;
+        return durationBeforeOrAfterCourseCompletion;
     }
 }
