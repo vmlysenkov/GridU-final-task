@@ -10,6 +10,7 @@ import java.util.GregorianCalendar;
 import static org.junit.Assert.assertEquals;
 
 public class DetermineAmountOfTimeBeforeOrAfterCourseCompletionTest {
+    LocalDateTime currentDate = LocalDateTime.of(2022, Month.MARCH, 2, 15, 0);
 
     @Test
     public void shouldDetermineEndDateWhenCourseEndsAt6PM() {
@@ -37,7 +38,7 @@ public class DetermineAmountOfTimeBeforeOrAfterCourseCompletionTest {
         int coursesDuration = 64;
 
         LocalDateTime endDate = DetermineCourseCompletion.getCourseCompletionDate(startDate, coursesDuration);
-        ArrayList<Integer> actual = AmountOfTimeBeforeOrAfterCourseCompletion.calculateAmountOfTimeBeforeOrAfterCourseCompletion(endDate, coursesDuration);
+        ArrayList<Integer> actual = AmountOfTimeBeforeOrAfterCourseCompletion.calculateAmountOfTimeBeforeOrAfterCourseCompletion(endDate, currentDate, coursesDuration);
         ArrayList<Integer> expected = new ArrayList<>();
         expected.add(-14);
         expected.add(-5);
@@ -50,7 +51,7 @@ public class DetermineAmountOfTimeBeforeOrAfterCourseCompletionTest {
         int coursesDuration = 30;
 
         LocalDateTime endDate = DetermineCourseCompletion.getCourseCompletionDate(startDate, coursesDuration);
-        ArrayList<Integer> actual = AmountOfTimeBeforeOrAfterCourseCompletion.calculateAmountOfTimeBeforeOrAfterCourseCompletion(endDate, coursesDuration);
+        ArrayList<Integer> actual = AmountOfTimeBeforeOrAfterCourseCompletion.calculateAmountOfTimeBeforeOrAfterCourseCompletion(endDate, currentDate, coursesDuration);
         ArrayList<Integer> expected = new ArrayList<>();
         expected.add(-5);
         expected.add(-7);
@@ -63,7 +64,7 @@ public class DetermineAmountOfTimeBeforeOrAfterCourseCompletionTest {
         int coursesDuration = 64;
 
         LocalDateTime endDate = DetermineCourseCompletion.getCourseCompletionDate(startDate, coursesDuration);
-        ArrayList<Integer> actual = AmountOfTimeBeforeOrAfterCourseCompletion.calculateAmountOfTimeBeforeOrAfterCourseCompletion(endDate, coursesDuration);
+        ArrayList<Integer> actual = AmountOfTimeBeforeOrAfterCourseCompletion.calculateAmountOfTimeBeforeOrAfterCourseCompletion(endDate, currentDate, coursesDuration);
         ArrayList<Integer> expected = new ArrayList<>();
         expected.add(0);
         expected.add(-5);
@@ -76,7 +77,7 @@ public class DetermineAmountOfTimeBeforeOrAfterCourseCompletionTest {
         int coursesDuration = 42;
 
         LocalDateTime endDate = DetermineCourseCompletion.getCourseCompletionDate(startDate, coursesDuration);
-        ArrayList<Integer> actual = AmountOfTimeBeforeOrAfterCourseCompletion.calculateAmountOfTimeBeforeOrAfterCourseCompletion(endDate, coursesDuration);
+        ArrayList<Integer> actual = AmountOfTimeBeforeOrAfterCourseCompletion.calculateAmountOfTimeBeforeOrAfterCourseCompletion(endDate, currentDate, coursesDuration);
         ArrayList<Integer> expected = new ArrayList<>();
         expected.add(-19);
         expected.add(-3);
@@ -89,7 +90,7 @@ public class DetermineAmountOfTimeBeforeOrAfterCourseCompletionTest {
         int coursesDuration = 64;
 
         LocalDateTime endDate = DetermineCourseCompletion.getCourseCompletionDate(startDate, coursesDuration);
-        ArrayList<Integer> actual = AmountOfTimeBeforeOrAfterCourseCompletion.calculateAmountOfTimeBeforeOrAfterCourseCompletion(endDate, coursesDuration);
+        ArrayList<Integer> actual = AmountOfTimeBeforeOrAfterCourseCompletion.calculateAmountOfTimeBeforeOrAfterCourseCompletion(endDate, currentDate, coursesDuration);
         ArrayList<Integer> expected = new ArrayList<>();
         expected.add(0);
         expected.add(3);
@@ -102,7 +103,7 @@ public class DetermineAmountOfTimeBeforeOrAfterCourseCompletionTest {
         int coursesDuration = 30;
 
         LocalDateTime endDate = DetermineCourseCompletion.getCourseCompletionDate(startDate, coursesDuration);
-        ArrayList<Integer> actual = AmountOfTimeBeforeOrAfterCourseCompletion.calculateAmountOfTimeBeforeOrAfterCourseCompletion(endDate, coursesDuration);
+        ArrayList<Integer> actual = AmountOfTimeBeforeOrAfterCourseCompletion.calculateAmountOfTimeBeforeOrAfterCourseCompletion(endDate, currentDate, coursesDuration);
         ArrayList<Integer> expected = new ArrayList<>();
         expected.add(1);
         expected.add(1);
@@ -115,7 +116,7 @@ public class DetermineAmountOfTimeBeforeOrAfterCourseCompletionTest {
         int coursesDuration = 30;
 
         LocalDateTime endDate = DetermineCourseCompletion.getCourseCompletionDate(startDate, coursesDuration);
-        ArrayList<Integer> actual = AmountOfTimeBeforeOrAfterCourseCompletion.calculateAmountOfTimeBeforeOrAfterCourseCompletion(endDate, coursesDuration);
+        ArrayList<Integer> actual = AmountOfTimeBeforeOrAfterCourseCompletion.calculateAmountOfTimeBeforeOrAfterCourseCompletion(endDate, currentDate, coursesDuration);
         ArrayList<Integer> expected = new ArrayList<>();
         expected.add(7);
         expected.add(1);
