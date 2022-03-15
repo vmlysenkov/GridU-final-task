@@ -89,8 +89,7 @@ public class AmountOfTimeBeforeOrAfterCourseCompletion {
         return daysAndHoursBeforeOrAfterCourseCompletion;
     }
 
-    public static ArrayList<Integer> calculateAmountOfTimeBeforeOrAfterCourseCompletion(LocalDateTime endDate, int coursesDuration) {
-        LocalDateTime currentDate = LocalDateTime.of(2022, Month.MARCH, 2, 15, 0);
+    public static ArrayList<Integer> calculateAmountOfTimeBeforeOrAfterCourseCompletion(LocalDateTime endDate, LocalDateTime currentDate, int coursesDuration) {
         long nightTime = Duration.between(endDate.withHour(endWorkingHour), currentDate.withHour(startWorkingHour)).toHoursPart();
         long amountOfWholeDaysBetweenEndAndCurrent = Duration.between(currentDate, endDate).toDays();
         long amountOfWholeHoursBetweenEndAndCurrent;
