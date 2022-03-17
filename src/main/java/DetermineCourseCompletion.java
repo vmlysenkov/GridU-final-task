@@ -34,12 +34,33 @@ public class DetermineCourseCompletion {
                         .filter(d -> d.getDayOfWeek() != DayOfWeek.SATURDAY && d.getDayOfWeek() != DayOfWeek.SUNDAY)
                         .limit(coursesDuration / workHoursPerDay)
                         .collect(Collectors.toList());
+        System.out.println(dateUntilEnd);
 
         LocalDateTime endDate = dateUntilEnd.get(dateUntilEnd.size() - 1);
         if ((coursesDuration % workHoursPerDay) == 0) {
             endDate = endDate.with(LocalTime.of(AmountOfTimeBeforeOrAfterCourseCompletion.endWorkingHour, 0));
         } else {
             endDate = endDate.plusDays(1).with(LocalTime.of(((coursesDuration % workHoursPerDay) + AmountOfTimeBeforeOrAfterCourseCompletion.startWorkingHour), 0));
+        }
+        return endDate;
+    }
+
+    public static LocalDateTime determineEndDateSkippingWeekends(LocalDateTime startDate, int coursesDuration) {
+        LocalDateTime endDate = startDate;
+        int amountOfHoursLeftUntilEnd = coursesDuration - workHoursPerDay;
+        while (amountOfHoursLeftUntilEnd > 0) {
+            endDate = endDate.plusDays(1);
+            if (!(endDate.getDayOfWeek() == DayOfWeek.SATURDAY || endDate.getDayOfWeek() == DayOfWeek.SUNDAY)) {
+                amountOfHoursLeftUntilEnd -= workHoursPerDay;
+            }
+        }
+        if (coursesDuration % workHoursPerDay == 0) {
+            endDate = LocalDateTime.of(endDate.getYear(), endDate.getMonth(), endDate.getDayOfMonth(),
+                    AmountOfTimeBeforeOrAfterCourseCompletion.endWorkingHour, 0);
+        } else {
+            endDate = LocalDateTime.of(endDate.getYear(), endDate.getMonth(), endDate.getDayOfMonth(),
+                    AmountOfTimeBeforeOrAfterCourseCompletion.startWorkingHour + coursesDuration % workHoursPerDay,
+                    0);
         }
         return endDate;
     }
