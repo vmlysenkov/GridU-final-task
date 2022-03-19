@@ -13,13 +13,61 @@ public class DetermineAmountOfTimeBeforeOrAfterCourseCompletionTest {
     LocalDateTime currentDate = LocalDateTime.of(2022, Month.MARCH, 2, 15, 0);
 
     @Test
+    public void shouldCalculateDaysAndHoursAfterCourseCompletionBoarderValueWithNextDay() {
+        LocalDateTime currentDate = LocalDateTime.of(2022, Month.FEBRUARY, 5, 10, 0);
+        LocalDateTime startDate = LocalDateTime.of(2022, Month.FEBRUARY, 4, 10, 0);
+        int coursesDuration = 8;
+
+        LocalDateTime endDate = DetermineCourseCompletion.getCourseCompletionDate(startDate, coursesDuration);
+        DurationBeforeOrAfterCourseCompletion actual = AmountOfTimeBeforeOrAfterCourseCompletion.calculateAmountOfTimeBeforeOrAfterCourseCompletion(endDate, currentDate);
+        DurationBeforeOrAfterCourseCompletion expected = new DurationBeforeOrAfterCourseCompletion(0, -16);
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    public void shouldCalculateDaysAndHoursAfterCourseCompletionBoarderValueWithSameDay() {
+        LocalDateTime currentDate = LocalDateTime.of(2022, Month.FEBRUARY, 4, 18, 0);
+        LocalDateTime startDate = LocalDateTime.of(2022, Month.FEBRUARY, 4, 10, 0);
+        int coursesDuration = 8;
+
+        LocalDateTime endDate = DetermineCourseCompletion.getCourseCompletionDate(startDate, coursesDuration);
+        DurationBeforeOrAfterCourseCompletion actual = AmountOfTimeBeforeOrAfterCourseCompletion.calculateAmountOfTimeBeforeOrAfterCourseCompletion(endDate, currentDate);
+        DurationBeforeOrAfterCourseCompletion expected = new DurationBeforeOrAfterCourseCompletion(0, 0);
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    public void shouldCalculateDaysAndHoursAfterCourseCompletionBoarderValueOneHourLess() {
+        LocalDateTime currentDate = LocalDateTime.of(2022, Month.FEBRUARY, 4, 18, 0);
+        LocalDateTime startDate = LocalDateTime.of(2022, Month.FEBRUARY, 4, 10, 0);
+        int coursesDuration = 7;
+
+        LocalDateTime endDate = DetermineCourseCompletion.getCourseCompletionDate(startDate, coursesDuration);
+        DurationBeforeOrAfterCourseCompletion actual = AmountOfTimeBeforeOrAfterCourseCompletion.calculateAmountOfTimeBeforeOrAfterCourseCompletion(endDate, currentDate);
+        DurationBeforeOrAfterCourseCompletion expected = new DurationBeforeOrAfterCourseCompletion(0, -1);
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    public void shouldCalculateDaysAndHoursAfterCourseCompletionWithNextDay() {
+        LocalDateTime currentDate = LocalDateTime.of(2022, Month.FEBRUARY, 3, 18, 0);
+        LocalDateTime startDate = LocalDateTime.of(2022, Month.FEBRUARY, 4, 10, 0);
+        int coursesDuration = 8;
+
+        LocalDateTime endDate = DetermineCourseCompletion.getCourseCompletionDate(startDate, coursesDuration);
+        DurationBeforeOrAfterCourseCompletion actual = AmountOfTimeBeforeOrAfterCourseCompletion.calculateAmountOfTimeBeforeOrAfterCourseCompletion(endDate, currentDate);
+        DurationBeforeOrAfterCourseCompletion expected = new DurationBeforeOrAfterCourseCompletion(1, 0);
+        assertEquals(expected, actual);
+    }
+
+    @Test
     public void shouldCalculateDaysAndHoursAfterCourseCompletionUsingLocalDateWhenCourseDividesWithoutRemainder() {
         LocalDateTime startDate = LocalDateTime.of(2022, Month.FEBRUARY, 4, 10, 0);
         int coursesDuration = 64;
 
         LocalDateTime endDate = DetermineCourseCompletion.getCourseCompletionDate(startDate, coursesDuration);
-        DurationBeforeOrAfterCourseCompletion actual = AmountOfTimeBeforeOrAfterCourseCompletion.calculateAmountOfTimeBeforeOrAfterCourseCompletion(endDate, currentDate, coursesDuration);
-        DurationBeforeOrAfterCourseCompletion expected = new DurationBeforeOrAfterCourseCompletion(-14, -5);
+        DurationBeforeOrAfterCourseCompletion actual = AmountOfTimeBeforeOrAfterCourseCompletion.calculateAmountOfTimeBeforeOrAfterCourseCompletion(endDate, currentDate);
+        DurationBeforeOrAfterCourseCompletion expected = new DurationBeforeOrAfterCourseCompletion(-14, -21);
         assertEquals(expected, actual);
     }
 
@@ -29,8 +77,8 @@ public class DetermineAmountOfTimeBeforeOrAfterCourseCompletionTest {
         int coursesDuration = 30;
 
         LocalDateTime endDate = DetermineCourseCompletion.getCourseCompletionDate(startDate, coursesDuration);
-        DurationBeforeOrAfterCourseCompletion actual = AmountOfTimeBeforeOrAfterCourseCompletion.calculateAmountOfTimeBeforeOrAfterCourseCompletion(endDate, currentDate, coursesDuration);
-        DurationBeforeOrAfterCourseCompletion expected = new DurationBeforeOrAfterCourseCompletion(-5, -7);
+        DurationBeforeOrAfterCourseCompletion actual = AmountOfTimeBeforeOrAfterCourseCompletion.calculateAmountOfTimeBeforeOrAfterCourseCompletion(endDate, currentDate);
+        DurationBeforeOrAfterCourseCompletion expected = new DurationBeforeOrAfterCourseCompletion(-5, -23);
         assertEquals(expected, actual);
     }
 
@@ -40,8 +88,8 @@ public class DetermineAmountOfTimeBeforeOrAfterCourseCompletionTest {
         int coursesDuration = 64;
 
         LocalDateTime endDate = DetermineCourseCompletion.getCourseCompletionDate(startDate, coursesDuration);
-        DurationBeforeOrAfterCourseCompletion actual = AmountOfTimeBeforeOrAfterCourseCompletion.calculateAmountOfTimeBeforeOrAfterCourseCompletion(endDate, currentDate, coursesDuration);
-        DurationBeforeOrAfterCourseCompletion expected = new DurationBeforeOrAfterCourseCompletion(0, -5);
+        DurationBeforeOrAfterCourseCompletion actual = AmountOfTimeBeforeOrAfterCourseCompletion.calculateAmountOfTimeBeforeOrAfterCourseCompletion(endDate, currentDate);
+        DurationBeforeOrAfterCourseCompletion expected = new DurationBeforeOrAfterCourseCompletion(0, -21);
         assertEquals(expected, actual);
     }
 
@@ -51,7 +99,7 @@ public class DetermineAmountOfTimeBeforeOrAfterCourseCompletionTest {
         int coursesDuration = 42;
 
         LocalDateTime endDate = DetermineCourseCompletion.getCourseCompletionDate(startDate, coursesDuration);
-        DurationBeforeOrAfterCourseCompletion actual = AmountOfTimeBeforeOrAfterCourseCompletion.calculateAmountOfTimeBeforeOrAfterCourseCompletion(endDate, currentDate, coursesDuration);
+        DurationBeforeOrAfterCourseCompletion actual = AmountOfTimeBeforeOrAfterCourseCompletion.calculateAmountOfTimeBeforeOrAfterCourseCompletion(endDate, currentDate);
         DurationBeforeOrAfterCourseCompletion expected = new DurationBeforeOrAfterCourseCompletion(-19, -3);
         assertEquals(expected, actual);
     }
@@ -62,7 +110,7 @@ public class DetermineAmountOfTimeBeforeOrAfterCourseCompletionTest {
         int coursesDuration = 64;
 
         LocalDateTime endDate = DetermineCourseCompletion.getCourseCompletionDate(startDate, coursesDuration);
-        DurationBeforeOrAfterCourseCompletion actual = AmountOfTimeBeforeOrAfterCourseCompletion.calculateAmountOfTimeBeforeOrAfterCourseCompletion(endDate, currentDate, coursesDuration);
+        DurationBeforeOrAfterCourseCompletion actual = AmountOfTimeBeforeOrAfterCourseCompletion.calculateAmountOfTimeBeforeOrAfterCourseCompletion(endDate, currentDate);
         DurationBeforeOrAfterCourseCompletion expected = new DurationBeforeOrAfterCourseCompletion(0, 3);
         assertEquals(expected, actual);
     }
@@ -73,7 +121,7 @@ public class DetermineAmountOfTimeBeforeOrAfterCourseCompletionTest {
         int coursesDuration = 30;
 
         LocalDateTime endDate = DetermineCourseCompletion.getCourseCompletionDate(startDate, coursesDuration);
-        DurationBeforeOrAfterCourseCompletion actual = AmountOfTimeBeforeOrAfterCourseCompletion.calculateAmountOfTimeBeforeOrAfterCourseCompletion(endDate, currentDate, coursesDuration);
+        DurationBeforeOrAfterCourseCompletion actual = AmountOfTimeBeforeOrAfterCourseCompletion.calculateAmountOfTimeBeforeOrAfterCourseCompletion(endDate, currentDate);
         DurationBeforeOrAfterCourseCompletion expected = new DurationBeforeOrAfterCourseCompletion(1, 1);
         assertEquals(expected, actual);
     }
@@ -84,7 +132,7 @@ public class DetermineAmountOfTimeBeforeOrAfterCourseCompletionTest {
         int coursesDuration = 30;
 
         LocalDateTime endDate = DetermineCourseCompletion.getCourseCompletionDate(startDate, coursesDuration);
-        DurationBeforeOrAfterCourseCompletion actual = AmountOfTimeBeforeOrAfterCourseCompletion.calculateAmountOfTimeBeforeOrAfterCourseCompletion(endDate, currentDate, coursesDuration);
+        DurationBeforeOrAfterCourseCompletion actual = AmountOfTimeBeforeOrAfterCourseCompletion.calculateAmountOfTimeBeforeOrAfterCourseCompletion(endDate, currentDate);
         DurationBeforeOrAfterCourseCompletion expected = new DurationBeforeOrAfterCourseCompletion(7, 1);
         assertEquals(expected, actual);
     }

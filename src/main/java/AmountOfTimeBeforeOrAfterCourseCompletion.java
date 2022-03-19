@@ -92,29 +92,16 @@ public class AmountOfTimeBeforeOrAfterCourseCompletion {
         return daysAndHoursBeforeOrAfterCourseCompletion;
     }
 
-    public static DurationBeforeOrAfterCourseCompletion calculateAmountOfTimeBeforeOrAfterCourseCompletion(LocalDateTime endDate, LocalDateTime currentDate, int coursesDuration) {
-        long nightTime = Duration.between(endDate.withHour(endWorkingHour), currentDate.withHour(startWorkingHour)).toHoursPart();
-        long amountOfWholeDaysBetweenEndAndCurrent = Duration.between(currentDate, endDate).toDays();
-        long amountOfWholeHoursBetweenEndAndCurrent;
-        int remainingHoursOfEducation = coursesDuration % DetermineCourseCompletion.workHoursPerDay;
-
-        LocalDate endDateLocalDate = endDate.toLocalDate();
-        LocalDate currentDateLocalDate = currentDate.toLocalDate();
-
-        if (endDateLocalDate.plusDays(Math.abs(amountOfWholeDaysBetweenEndAndCurrent)).compareTo(currentDateLocalDate) < 0 && remainingHoursOfEducation != 0) {
-            amountOfWholeHoursBetweenEndAndCurrent = Duration.between(currentDate, endDate.withHour((remainingHoursOfEducation + startWorkingHour))).toHoursPart() + nightTime;
-        } else if (endDate.isAfter(currentDate) && remainingHoursOfEducation == 0) {
-            amountOfWholeHoursBetweenEndAndCurrent = Duration.between(currentDate, endDate).toHoursPart();
+    public static DurationBeforeOrAfterCourseCompletion calculateAmountOfTimeBeforeOrAfterCourseCompletion(LocalDateTime endDate, LocalDateTime currentDate) {
+        int daysBetween = (int) Duration.between(currentDate, endDate).toDays();
+        int hoursBetween = Duration.between(currentDate, endDate).toHoursPart();
+        DurationBeforeOrAfterCourseCompletion durationBeforeOrAfterCourseCompletion = new DurationBeforeOrAfterCourseCompletion(daysBetween, hoursBetween);
+        if ((daysBetween > 0 && hoursBetween > 0) || (daysBetween == 0 && hoursBetween > 0) || (daysBetween > 0 && hoursBetween == 0)) {
+            System.out.println("Training is not finished. " + daysBetween + " d " + hoursBetween + " hours are left until the end.");
+        } else if ((daysBetween < 0 && hoursBetween < 0) || (daysBetween == 0 && hoursBetween < 0) || (daysBetween < 0 && hoursBetween == 0)) {
+            System.out.println("Training completed. " + Math.abs(daysBetween) + " d " + Math.abs(hoursBetween) + " hours have passed since the end.");
         } else {
-            amountOfWholeHoursBetweenEndAndCurrent = Duration.between(currentDate, endDate.withHour((remainingHoursOfEducation + startWorkingHour))).toHoursPart();
-        }
-
-        DurationBeforeOrAfterCourseCompletion durationBeforeOrAfterCourseCompletion = new DurationBeforeOrAfterCourseCompletion((int) amountOfWholeDaysBetweenEndAndCurrent, (int) amountOfWholeHoursBetweenEndAndCurrent);
-
-        if (amountOfWholeDaysBetweenEndAndCurrent >= 0 && amountOfWholeHoursBetweenEndAndCurrent > 0) {
-            System.out.println("Training is not finished. " + amountOfWholeDaysBetweenEndAndCurrent + " d " + amountOfWholeHoursBetweenEndAndCurrent + " hours are left until the end.");
-        } else {
-            System.out.println("Training completed. " + -1 * amountOfWholeDaysBetweenEndAndCurrent + " d " + -1 * amountOfWholeHoursBetweenEndAndCurrent + " hours have passed since the end.");
+            System.out.println("Training just finished. " + Math.abs(daysBetween) + " d " + Math.abs(hoursBetween) + " hours left.");
         }
         return durationBeforeOrAfterCourseCompletion;
     }
