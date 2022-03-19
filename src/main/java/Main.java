@@ -14,6 +14,7 @@ public class Main {
         CourseData course1_1 = new CourseData("Java", 16);
         CourseData course1_2 = new CourseData("JDBC", 24);
         CourseData course1_3 = new CourseData("Spring", 16);
+        int curriculumOfStudent1 = course1_1.duration + course1_2.duration + course1_3.duration;
         List<CourseData> coursesOfStudent1 = new ArrayList<>();
         coursesOfStudent1.add(course1_1);
         coursesOfStudent1.add(course1_2);
@@ -22,7 +23,7 @@ public class Main {
 
         System.out.println("Short report:");
         System.out.print(student1.name + " (" + student1.curriculum + ") - ");
-        AmountOfTimeBeforeOrAfterCourseCompletion.calculateAmountOfTimeBeforeOrAfterCourseCompletion((DetermineCourseCompletion.getCourseCompletionDate(startDateStudent1, (course1_1.duration + course1_2.duration + course1_3.duration))), currentDate);
+        AmountOfTimeBeforeOrAfterCourseCompletion.calculateAmountOfTimeBeforeOrAfterCourseCompletion((DetermineCourseCompletion.getCourseCompletionDate(startDateStudent1, curriculumOfStudent1)), currentDate);
         System.out.println();
         System.out.println("Full report:");
         System.out.println("student name: " + student1.name);
@@ -31,7 +32,7 @@ public class Main {
         System.out.println("program duration: " + coursesDurationOfStudent1 + " hours");
         System.out.println("start date: " + startDateStudent1.format(formatter));
         System.out.println("end date: " + DetermineCourseCompletion.getCourseCompletionDate(startDateStudent1, coursesDurationOfStudent1).format(formatter));
-        AmountOfTimeBeforeOrAfterCourseCompletion.calculateAmountOfTimeBeforeOrAfterCourseCompletion((DetermineCourseCompletion.getCourseCompletionDate(startDateStudent1, (course1_1.duration + course1_2.duration + course1_3.duration))), currentDate);
+        AmountOfTimeBeforeOrAfterCourseCompletion.calculateAmountOfTimeBeforeOrAfterCourseCompletion((DetermineCourseCompletion.getCourseCompletionDate(startDateStudent1, curriculumOfStudent1)), currentDate);
         System.out.println();
 
         LocalDateTime startDateStudent2 = LocalDateTime.of(2020, Month.JUNE, 1, 10, 0);
@@ -39,6 +40,7 @@ public class Main {
         CourseData course2_1 = new CourseData("Test design", 10);
         CourseData course2_2 = new CourseData("Page Object", 16);
         CourseData course2_3 = new CourseData("Selenium", 16);
+        int curriculumOfStudent2 = course2_1.duration + course2_2.duration + course2_3.duration;
         List<CourseData> coursesOfStudent2 = new ArrayList<>();
         coursesOfStudent2.add(course2_1);
         coursesOfStudent2.add(course2_2);
@@ -47,7 +49,7 @@ public class Main {
 
         System.out.println("Short report:");
         System.out.print(student2.name + " (" + student2.curriculum + ") - ");
-        AmountOfTimeBeforeOrAfterCourseCompletion.calculateAmountOfTimeBeforeOrAfterCourseCompletion((DetermineCourseCompletion.getCourseCompletionDate(startDateStudent2, (course2_1.duration + course2_2.duration + course2_3.duration))), currentDate);
+        AmountOfTimeBeforeOrAfterCourseCompletion.calculateAmountOfTimeBeforeOrAfterCourseCompletion((DetermineCourseCompletion.getCourseCompletionDate(startDateStudent2, coursesDurationOfStudent2)), currentDate);
         System.out.println();
         System.out.println("Full report:");
         System.out.println("student name: " + student2.name);
@@ -56,7 +58,7 @@ public class Main {
         System.out.println("program duration: " + coursesDurationOfStudent2 + " hours");
         System.out.println("start date: " + startDateStudent2.format(formatter));
         System.out.println("end date: " + DetermineCourseCompletion.getCourseCompletionDate(startDateStudent2, coursesDurationOfStudent2).format(formatter));
-        AmountOfTimeBeforeOrAfterCourseCompletion.calculateAmountOfTimeBeforeOrAfterCourseCompletion((DetermineCourseCompletion.getCourseCompletionDate(startDateStudent2, (course2_1.duration + course2_2.duration + course2_3.duration))), currentDate);
+        AmountOfTimeBeforeOrAfterCourseCompletion.calculateAmountOfTimeBeforeOrAfterCourseCompletion((DetermineCourseCompletion.getCourseCompletionDate(startDateStudent2, curriculumOfStudent2)), currentDate);
         System.out.println();
     }
 }

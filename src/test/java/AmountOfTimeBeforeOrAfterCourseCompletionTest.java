@@ -9,8 +9,32 @@ import java.util.GregorianCalendar;
 
 import static org.junit.Assert.assertEquals;
 
-public class DetermineAmountOfTimeBeforeOrAfterCourseCompletionTest {
+public class AmountOfTimeBeforeOrAfterCourseCompletionTest {
     LocalDateTime currentDate = LocalDateTime.of(2022, Month.MARCH, 2, 15, 0);
+
+    @Test
+    public void shouldCalculateDaysAndHoursBeforeCourseCompletionForIvanIvanov() {
+        LocalDateTime currentDate = LocalDateTime.of(2020, Month.JUNE, 8, 15, 0);
+        LocalDateTime startDate = LocalDateTime.of(2020, Month.JUNE, 1, 10, 0);
+        int coursesDuration = 56;
+
+        LocalDateTime endDate = DetermineCourseCompletion.getCourseCompletionDate(startDate, coursesDuration);
+        DurationBeforeOrAfterCourseCompletion actual = AmountOfTimeBeforeOrAfterCourseCompletion.calculateAmountOfTimeBeforeOrAfterCourseCompletion(endDate, currentDate);
+        DurationBeforeOrAfterCourseCompletion expected = new DurationBeforeOrAfterCourseCompletion(1, 3);
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    public void shouldCalculateDaysAndHoursAfterCourseCompletionForIvanSidorov() {
+        LocalDateTime currentDate = LocalDateTime.of(2020, Month.JUNE, 8, 15, 0);
+        LocalDateTime startDate = LocalDateTime.of(2020, Month.JUNE, 1, 10, 0);
+        int coursesDuration = 42;
+
+        LocalDateTime endDate = DetermineCourseCompletion.getCourseCompletionDate(startDate, coursesDuration);
+        DurationBeforeOrAfterCourseCompletion actual = AmountOfTimeBeforeOrAfterCourseCompletion.calculateAmountOfTimeBeforeOrAfterCourseCompletion(endDate, currentDate);
+        DurationBeforeOrAfterCourseCompletion expected = new DurationBeforeOrAfterCourseCompletion(0, -3);
+        assertEquals(expected, actual);
+    }
 
     @Test
     public void shouldCalculateDaysAndHoursAfterCourseCompletionBoarderValueWithNextDay() {
