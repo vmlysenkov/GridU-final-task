@@ -1,8 +1,6 @@
 import java.time.LocalDateTime;
 import java.time.Month;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.List;
 
 public class Main {
     public static DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d MMMM yyyy HH:mm - EEEE");
@@ -11,54 +9,87 @@ public class Main {
         LocalDateTime currentDate = LocalDateTime.of(2020, Month.JUNE, 8, 15, 0);
         LocalDateTime startDateStudent1 = LocalDateTime.of(2020, Month.JUNE, 1, 10, 0);
         StudentData student1 = new StudentData("Ivanov Ivan", "Java Developer");
-        CourseData course1_1 = new CourseData("Java", 16);
-        CourseData course1_2 = new CourseData("JDBC", 24);
-        CourseData course1_3 = new CourseData("Spring", 16);
-        int curriculumOfStudent1 = course1_1.duration + course1_2.duration + course1_3.duration;
-        List<CourseData> coursesOfStudent1 = new ArrayList<>();
-        coursesOfStudent1.add(course1_1);
-        coursesOfStudent1.add(course1_2);
-        coursesOfStudent1.add(course1_3);
-        int coursesDurationOfStudent1 = coursesOfStudent1.stream().mapToInt(d -> d.duration).sum();
+        Curriculum curriculumOfStudent1 = new Curriculum();
+        curriculumOfStudent1.addCourse(new CourseData("Java", 16));
+        curriculumOfStudent1.addCourse(new CourseData("JDBC", 24));
+        curriculumOfStudent1.addCourse(new CourseData("Spring", 16));
+        int durationOfCurriculumOfStudent1 = curriculumOfStudent1.getDuration();
 
         System.out.println("Short report:");
+
         System.out.print(student1.name + " (" + student1.curriculum + ") - ");
-        AmountOfTimeBeforeOrAfterCourseCompletion.calculateAmountOfTimeBeforeOrAfterCourseCompletion((DetermineCourseCompletion.getCourseCompletionDate(startDateStudent1, curriculumOfStudent1)), currentDate);
+
+        String reportOfStudent1;
+        DurationBeforeOrAfterCourseCompletion timeBetweenCompletionAndNowForStudent1 =
+                AmountOfTimeBeforeOrAfterCourseCompletion.calculateAmountOfTimeBeforeOrAfterCourseCompletion(
+                        (DetermineCourseCompletion.getCourseCompletionDate(startDateStudent1, durationOfCurriculumOfStudent1)),
+                        currentDate);
+        if (timeBetweenCompletionAndNowForStudent1.getDays() == 0 && timeBetweenCompletionAndNowForStudent1.getHours() == 0) {
+            reportOfStudent1 = "Training just finished. " + timeBetweenCompletionAndNowForStudent1.getDays() + " d "
+                    + timeBetweenCompletionAndNowForStudent1.getHours() + " hours left.";
+        } else if ((timeBetweenCompletionAndNowForStudent1.getDays() > 0 && timeBetweenCompletionAndNowForStudent1.getHours() > 0)
+                || (timeBetweenCompletionAndNowForStudent1.getDays() == 0 && timeBetweenCompletionAndNowForStudent1.getHours() > 0)
+                || (timeBetweenCompletionAndNowForStudent1.getDays() > 0 && timeBetweenCompletionAndNowForStudent1.getHours() == 0)) {
+            reportOfStudent1 = "Training is not finished. " + timeBetweenCompletionAndNowForStudent1.getDays() + " d "
+                    + timeBetweenCompletionAndNowForStudent1.getHours() + " hours are left until the end.";
+        } else {
+            reportOfStudent1 = "Training completed. " + Math.abs(timeBetweenCompletionAndNowForStudent1.getDays()) + " d "
+                    + Math.abs(timeBetweenCompletionAndNowForStudent1.getHours()) + " hours have passed since the end.";
+        }
+        System.out.println(reportOfStudent1);
         System.out.println();
         System.out.println("Full report:");
         System.out.println("student name: " + student1.name);
-        System.out.println("working time (from " + AmountOfTimeBeforeOrAfterCourseCompletion.startWorkingHour + " to " + AmountOfTimeBeforeOrAfterCourseCompletion.endWorkingHour + ")");
+        System.out.println("working time (from " + AmountOfTimeBeforeOrAfterCourseCompletion.startWorkingHour + " to "
+                + AmountOfTimeBeforeOrAfterCourseCompletion.endWorkingHour + ")");
         System.out.println("program name: " + student1.curriculum);
-        System.out.println("program duration: " + coursesDurationOfStudent1 + " hours");
+        System.out.println("program duration: " + curriculumOfStudent1 + " hours");
         System.out.println("start date: " + startDateStudent1.format(formatter));
-        System.out.println("end date: " + DetermineCourseCompletion.getCourseCompletionDate(startDateStudent1, coursesDurationOfStudent1).format(formatter));
-        AmountOfTimeBeforeOrAfterCourseCompletion.calculateAmountOfTimeBeforeOrAfterCourseCompletion((DetermineCourseCompletion.getCourseCompletionDate(startDateStudent1, curriculumOfStudent1)), currentDate);
+        System.out.println("end date: " + DetermineCourseCompletion.getCourseCompletionDate(startDateStudent1,
+                durationOfCurriculumOfStudent1).format(formatter));
+        System.out.println(reportOfStudent1);
+        curriculumOfStudent1.clearArrayList();
         System.out.println();
 
         LocalDateTime startDateStudent2 = LocalDateTime.of(2020, Month.JUNE, 1, 10, 0);
         StudentData student2 = new StudentData("Sidorov Ivan", "AQE");
-        CourseData course2_1 = new CourseData("Test design", 10);
-        CourseData course2_2 = new CourseData("Page Object", 16);
-        CourseData course2_3 = new CourseData("Selenium", 16);
-        int curriculumOfStudent2 = course2_1.duration + course2_2.duration + course2_3.duration;
-        List<CourseData> coursesOfStudent2 = new ArrayList<>();
-        coursesOfStudent2.add(course2_1);
-        coursesOfStudent2.add(course2_2);
-        coursesOfStudent2.add(course2_3);
-        int coursesDurationOfStudent2 = coursesOfStudent2.stream().mapToInt(d -> d.duration).sum();
+        Curriculum curriculumOfStudent2 = new Curriculum();
+        curriculumOfStudent2.addCourse(new CourseData("Test design", 10));
+        curriculumOfStudent2.addCourse(new CourseData("Page Object", 16));
+        curriculumOfStudent2.addCourse(new CourseData("Selenium", 16));
+        int durationOfCurriculumOfStudent2 = curriculumOfStudent2.getDuration();
 
         System.out.println("Short report:");
         System.out.print(student2.name + " (" + student2.curriculum + ") - ");
-        AmountOfTimeBeforeOrAfterCourseCompletion.calculateAmountOfTimeBeforeOrAfterCourseCompletion((DetermineCourseCompletion.getCourseCompletionDate(startDateStudent2, coursesDurationOfStudent2)), currentDate);
+
+        String reportOfStudent2;
+        DurationBeforeOrAfterCourseCompletion timeBetweenCompletionAndNowForStudent2 =
+                AmountOfTimeBeforeOrAfterCourseCompletion.calculateAmountOfTimeBeforeOrAfterCourseCompletion(
+                        (DetermineCourseCompletion.getCourseCompletionDate(startDateStudent2, durationOfCurriculumOfStudent2)),
+                        currentDate);
+        if (timeBetweenCompletionAndNowForStudent2.getDays() == 0 && timeBetweenCompletionAndNowForStudent2.getHours() == 0) {
+            reportOfStudent2 = "Training just finished. " + timeBetweenCompletionAndNowForStudent2.getDays() + " d "
+                    + timeBetweenCompletionAndNowForStudent2.getHours() + " hours left.";
+        } else if ((timeBetweenCompletionAndNowForStudent2.getDays() > 0 && timeBetweenCompletionAndNowForStudent2.getHours() > 0)
+                || (timeBetweenCompletionAndNowForStudent2.getDays() == 0 && timeBetweenCompletionAndNowForStudent2.getHours() > 0)
+                || (timeBetweenCompletionAndNowForStudent2.getDays() > 0 && timeBetweenCompletionAndNowForStudent2.getHours() == 0)) {
+            reportOfStudent2 = "Training is not finished. " + timeBetweenCompletionAndNowForStudent2.getDays() + " d "
+                    + timeBetweenCompletionAndNowForStudent2.getHours() + " hours are left until the end.";
+        } else {
+            reportOfStudent2 = "Training completed. " + Math.abs(timeBetweenCompletionAndNowForStudent2.getDays()) + " d "
+                    + Math.abs(timeBetweenCompletionAndNowForStudent2.getHours()) + " hours have passed since the end.";
+        }
+        System.out.println(reportOfStudent2);
         System.out.println();
         System.out.println("Full report:");
         System.out.println("student name: " + student2.name);
-        System.out.println("working time (from " + AmountOfTimeBeforeOrAfterCourseCompletion.startWorkingHour + " to " + AmountOfTimeBeforeOrAfterCourseCompletion.endWorkingHour + ")");
+        System.out.println("working time (from " + AmountOfTimeBeforeOrAfterCourseCompletion.startWorkingHour +
+                " to " + AmountOfTimeBeforeOrAfterCourseCompletion.endWorkingHour + ")");
         System.out.println("program name: " + student2.curriculum);
-        System.out.println("program duration: " + coursesDurationOfStudent2 + " hours");
+        System.out.println("program duration: " + durationOfCurriculumOfStudent2 + " hours");
         System.out.println("start date: " + startDateStudent2.format(formatter));
-        System.out.println("end date: " + DetermineCourseCompletion.getCourseCompletionDate(startDateStudent2, coursesDurationOfStudent2).format(formatter));
-        AmountOfTimeBeforeOrAfterCourseCompletion.calculateAmountOfTimeBeforeOrAfterCourseCompletion((DetermineCourseCompletion.getCourseCompletionDate(startDateStudent2, curriculumOfStudent2)), currentDate);
-        System.out.println();
+        System.out.println("end date: " + DetermineCourseCompletion.getCourseCompletionDate(startDateStudent2,
+                durationOfCurriculumOfStudent2).format(formatter));
+        System.out.println(reportOfStudent2);
     }
 }

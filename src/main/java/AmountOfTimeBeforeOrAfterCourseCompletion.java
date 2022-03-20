@@ -95,14 +95,6 @@ public class AmountOfTimeBeforeOrAfterCourseCompletion {
     public static DurationBeforeOrAfterCourseCompletion calculateAmountOfTimeBeforeOrAfterCourseCompletion(LocalDateTime endDate, LocalDateTime currentDate) {
         int daysBetween = (int) Duration.between(currentDate, endDate).toDays();
         int hoursBetween = Duration.between(currentDate, endDate).toHoursPart();
-        DurationBeforeOrAfterCourseCompletion durationBeforeOrAfterCourseCompletion = new DurationBeforeOrAfterCourseCompletion(daysBetween, hoursBetween);
-        if ((daysBetween > 0 && hoursBetween > 0) || (daysBetween == 0 && hoursBetween > 0) || (daysBetween > 0 && hoursBetween == 0)) {
-            System.out.println("Training is not finished. " + daysBetween + " d " + hoursBetween + " hours are left until the end.");
-        } else if ((daysBetween < 0 && hoursBetween < 0) || (daysBetween == 0 && hoursBetween < 0) || (daysBetween < 0 && hoursBetween == 0)) {
-            System.out.println("Training completed. " + Math.abs(daysBetween) + " d " + Math.abs(hoursBetween) + " hours have passed since the end.");
-        } else {
-            System.out.println("Training just finished. " + Math.abs(daysBetween) + " d " + Math.abs(hoursBetween) + " hours left.");
-        }
-        return durationBeforeOrAfterCourseCompletion;
+        return new DurationBeforeOrAfterCourseCompletion(daysBetween, hoursBetween);
     }
 }
