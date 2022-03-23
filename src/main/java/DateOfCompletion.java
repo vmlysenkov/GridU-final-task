@@ -1,7 +1,7 @@
 import java.time.DayOfWeek;
 import java.time.LocalDateTime;
 
-public class DetermineCourseCompletion {
+public class DateOfCompletion {
     public static final int WORK_HOURS_PER_DAY = 8;
 
     public static LocalDateTime getCourseCompletionDate(LocalDateTime startDate, int coursesDuration) {
@@ -15,10 +15,10 @@ public class DetermineCourseCompletion {
         }
         if (coursesDuration % WORK_HOURS_PER_DAY == 0) {
             endDate = LocalDateTime.of(endDate.getYear(), endDate.getMonth(), endDate.getDayOfMonth(),
-                    AmountOfTimeBeforeOrAfterCourseCompletion.END_WORKING_HOUR, 0);
+                    TimeBetweenDates.END_WORKING_HOUR, 0);
         } else {
             endDate = LocalDateTime.of(endDate.getYear(), endDate.getMonth(), endDate.getDayOfMonth(),
-                    AmountOfTimeBeforeOrAfterCourseCompletion.START_WORKING_HOUR + coursesDuration % WORK_HOURS_PER_DAY,
+                    TimeBetweenDates.START_WORKING_HOUR + coursesDuration % WORK_HOURS_PER_DAY,
                     0);
         }
         return endDate;
