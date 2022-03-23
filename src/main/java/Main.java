@@ -27,8 +27,8 @@ public class Main {
         System.out.println();
         System.out.println("Full report:");
         System.out.println("student name: " + student1.name);
-        System.out.println("working time (from " + AmountOfTimeBeforeOrAfterCourseCompletion.startWorkingHour + " to "
-                + AmountOfTimeBeforeOrAfterCourseCompletion.endWorkingHour + ")");
+        System.out.println("working time (from " + AmountOfTimeBeforeOrAfterCourseCompletion.START_WORKING_HOUR + " to "
+                + AmountOfTimeBeforeOrAfterCourseCompletion.END_WORKING_HOUR + ")");
         System.out.println("program name: " + student1.curriculum);
         System.out.println("program duration: " + durationOfCurriculumOfStudent1 + " hours");
         System.out.println("start date: " + startDateStudent1.format(formatter));
@@ -56,8 +56,8 @@ public class Main {
         System.out.println();
         System.out.println("Full report:");
         System.out.println("student name: " + student2.name);
-        System.out.println("working time (from " + AmountOfTimeBeforeOrAfterCourseCompletion.startWorkingHour +
-                " to " + AmountOfTimeBeforeOrAfterCourseCompletion.endWorkingHour + ")");
+        System.out.println("working time (from " + AmountOfTimeBeforeOrAfterCourseCompletion.START_WORKING_HOUR +
+                " to " + AmountOfTimeBeforeOrAfterCourseCompletion.END_WORKING_HOUR + ")");
         System.out.println("program name: " + student2.curriculum);
         System.out.println("program duration: " + durationOfCurriculumOfStudent2 + " hours");
         System.out.println("start date: " + startDateStudent2.format(formatter));

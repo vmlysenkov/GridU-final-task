@@ -2,23 +2,23 @@ import java.time.DayOfWeek;
 import java.time.LocalDateTime;
 
 public class DetermineCourseCompletion {
-    static int workHoursPerDay = 8;
+    public static final int WORK_HOURS_PER_DAY = 8;
 
     public static LocalDateTime getCourseCompletionDate(LocalDateTime startDate, int coursesDuration) {
         LocalDateTime endDate = startDate;
-        int amountOfHoursLeftUntilEnd = coursesDuration - workHoursPerDay;
+        int amountOfHoursLeftUntilEnd = coursesDuration - WORK_HOURS_PER_DAY;
         while (amountOfHoursLeftUntilEnd > 0) {
             endDate = endDate.plusDays(1);
             if (!(endDate.getDayOfWeek() == DayOfWeek.SATURDAY || endDate.getDayOfWeek() == DayOfWeek.SUNDAY)) {
-                amountOfHoursLeftUntilEnd -= workHoursPerDay;
+                amountOfHoursLeftUntilEnd -= WORK_HOURS_PER_DAY;
             }
         }
-        if (coursesDuration % workHoursPerDay == 0) {
+        if (coursesDuration % WORK_HOURS_PER_DAY == 0) {
             endDate = LocalDateTime.of(endDate.getYear(), endDate.getMonth(), endDate.getDayOfMonth(),
-                    AmountOfTimeBeforeOrAfterCourseCompletion.endWorkingHour, 0);
+                    AmountOfTimeBeforeOrAfterCourseCompletion.END_WORKING_HOUR, 0);
         } else {
             endDate = LocalDateTime.of(endDate.getYear(), endDate.getMonth(), endDate.getDayOfMonth(),
-                    AmountOfTimeBeforeOrAfterCourseCompletion.startWorkingHour + coursesDuration % workHoursPerDay,
+                    AmountOfTimeBeforeOrAfterCourseCompletion.START_WORKING_HOUR + coursesDuration % WORK_HOURS_PER_DAY,
                     0);
         }
         return endDate;

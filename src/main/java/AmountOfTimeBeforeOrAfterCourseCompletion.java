@@ -2,8 +2,8 @@ import java.time.Duration;
 import java.time.LocalDateTime;
 
 public class AmountOfTimeBeforeOrAfterCourseCompletion {
-    public static int startWorkingHour = 10;
-    public static int endWorkingHour = 18;
+    public static final int START_WORKING_HOUR = 10;
+    public static final int END_WORKING_HOUR = 18;
 
     public static DurationBeforeOrAfterCourseCompletion calculateAmountOfTimeBeforeOrAfterCourseCompletion(LocalDateTime endDate, LocalDateTime currentDate) {
         int daysBetween = (int) Duration.between(currentDate, endDate).toDays();
